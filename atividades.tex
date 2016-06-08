@@ -1,0 +1,698 @@
+\chapter{Atividades Desenvolvidas}
+
+
+
+
+\section{Estudo inicial com o modelo utilizando os aferentes Ia}
+
+Como o bolsista não conhecia em detalhes a implementação dos aferentes (que estava em processo final no início de 2013) no sistema a ser estudado, foi feito um estudo deste sistema, em conjunto com o pós-doutorando (então doutorando) Leonardo Abdala Elias, que serviu para que o bolsista tomasse conhecimento de como os aferentes foram  implementados no sistema. Esse estudo inicial resultou em três trabalhos em congresso, dois dos quais o bolsista é primeiro autor~\cite{Watanabe2013a, Watanabe2013b} e um em que Leonardo Elias é o primeiro autor~\cite{Elias2013b}. Abaixo será descrito o sistema e as análises realizadas. Como todos os elementos (com exceção do sistema mecânico) já foram apresentados em outros trabalhos, eles serão apenas brevemente explicados.
+
+
+\subsection{Modelo neuromusculoesquelético}
+
+O modelo do {\it pool} de motoneurônios usado foi o já descrito em~\cite{cisi2008, Elias2012, Watanabe2013}. Na Figura~\ref{fig:poolstruct} está um diagrama da estrutura do modelo do {\it pool} motoneurônios. 
+
+
+\begin{figure}[ht!]
+	\center
+	\includegraphics[scale=0.4]{PoolStructure.eps}
+	\caption{Estrutura do {\it pool} de motoneurônios usado nesse estudo a) visão esquemática do triceps sural e seus elementos neurais, musculares e biomecânicos. b) representação esquemática das unidades motoras de um músculo. Cada unidade motora recebe uma fração das entradas estocásticas (comando descendente) e gera {\it twitches} que são somados com a contribuição de outras unidades motoras para produzir a força muscular. c) circuito equivalente usado para representar o modelo de motoneurônio. Adaptado de~\cite{Watanabe2013}.}
+	\label{fig:poolstruct}
+\end{figure}
+
+O comando descendente utilizado neste trabalho (ver Figura~\ref{fig:poolstruct}) corresponde a 400 processos Gamma com média de 9,6 ms e ordem 5, mesmos valores usados em~\cite{Watanabe2013} para gerar uma força equivalente a 20\% da contração voluntária máxima. Cada um desses processos se conecta a aproximadamente 30\% dos motoneurônios (conectividade de 30\%) de forma aleatória. 
+
+Os modelos ddos motoneurônios  foram representados por modelos do tipo {\it conductance-based} com dois compartimentos, um representando o soma e outro a arborização dendrítica. Mais detalhes em~\cite{cisi2008, Elias2012, Watanabe2013}.
+
+Para cada {\it spike} que um motoneurônio gera, é gerado um {\it twitch} utilizando um filtro de segunda-ordem criticamente amortecido~\cite{cisi2008}. Esses sinais de cada motoneurônio são multiplicados por uma saturação sigmoidal~\cite{Watanabe2013} e então são somados para gerar um sinal equivalente a força do músculo. 
+
+O modelo de músculo utilizado foi um modelo tipo Hill, similar ao descrito em~\citeonline{Menegaldo2009}, porém    acrescido de uma massa para fins de estabilidade numérica~\cite{Chaud2012, Watanabe2012e}. A Figura~\ref{fig:hillModel} contém um diagrama do modelo, que é utilizado para cada um dos três músculos do Tríceps Sural.
+
+
+\begin{figure}[ht!]
+	\center
+	\includegraphics[scale=0.5]{hillModel.eps}
+	\caption{Modelo de músculo tipo Hill (adaptado de~\cite{Chaud2012})}
+	\label{fig:hillModel}
+\end{figure}
+
+O modelo de fuso neuromuscular utilizado é o modelo apresentado por~\citeonline{Mileusnic2006} e usado em~\citeonline{Chaud2012}. Ele tem como entrada o comprimento e a variação de comprimento muscular (obtidos do modelo de músculo tipo Hill) e retorna a frequência de disparo média dos aferentes Ia. Tendo esse disparo médio dos aferentes, cada aferente Ia dispara com essa média de acordo com um processo Gamma de ordem 25.
+
+
+ A diferença entre os três trabalhos apresentados nos congressos está no modelo mecânico no qual o sistema neuromuscular atua. No caso dos trabalhos de ~\citeonline{Watanabe2013a, Watanabe2013b} o modelo mecânico representou o tornozelo em duas condições diferentes: tarefa de força (em que o ângulo do tornozelo não varia) e tarefa de posição (com o ângulo do tornozelo variando). Na Figura~\ref{fig:foot} está uma representação deste sistema.
+
+\begin{figure}[ht!]
+	\center
+	\includegraphics[scale=0.2]{foot.eps}
+	\caption{Modelo mecânico do tornozelo utilizado no estudo}
+	\label{fig:foot}
+\end{figure}
+
+Durante a tarefa de força, o ângulo varia de acordo com a equação abaixo:
+
+\begin{equation}
+    \ddot{\theta} = \frac{M - M_g - M_p + W}{J_f}
+\end{equation}
+
+em que $M$ é o torque resultante (valores positivos representam dorsoflexão e valores negativos flexão plantar), $M_p$ é torque passivo (devido à viscoelasticidade dos tecidos), $W$ é uma carga (nesse estudo equivalente a 20\% da contração voluntária máxima), $J_f$ é o momento de inércia do pé e $M_g$ é o torque gravitacional, representado por:
+
+\begin{equation}
+    M_g=d_fm_fg\sin(\theta_l-\theta)
+\end{equation}
+
+com $df = 0,052$ m, representando a distância entre o centro do pé e o ponto de rotação, $g=9,81 \text{ m/s}^2$ (aceleração da gravidade), $m_f = 2,01$ kg (massa do pé) e $\theta_l = pi/4$ rad (ângulo da perna com o solo).
+
+Na Figura~\ref{fig:generalstruct} está um diagrama com a visão geral do sistema.
+
+\begin{figure}[h!]
+	\center
+	\includegraphics[scale=0.4]{Schematics.eps}
+	\caption{Visão geral do sistema utilizado na análise}
+	\label{fig:generalstruct}
+\end{figure}
+
+No caso do modelo usado por~\citeonline{Elias2013b}, o sistema mecânico é, ao invés do modelo de tornozelo, um pêndulo invertido, usado para modelar o controle da postura ereta quieta. Um artigo sobre este trabalho está sendo escrito para ser submetido para periódico internacional.
+
+\subsection{Resultados da análise do {\it pool} de motoneurônios com aferentes Ia}
+
+A Figura~\ref{fig:specTF} mostra exemplos do espectro de potência calculados a partir de dados experimentais (obtidos de~\citeonline{Mello2011d}), juntamente com dados equivalentes obtidos das simulações obtidas com o  modelo descrito acima para a tarefa de força. Da mesma forma, na Figura~\ref{fig:specTP} estão os espectros de potência obtidos dos dados experimentais~\cite{Mello2011d} e simulados pra a tarefa de posição. No intervalo de 1~Hz a 9~Hz, o espectro de potência do torque experimental apresentou um único pico  em 1,67 $\pm$ 0,52~Hz para a tarefa de força e apresentou dois picos para a tarefa de posição: 3,40 $\pm$ 0,48~Hz e 6,24 $\pm$ 1,66~Hz. Os resultados da simulação reproduziram os dados experimentais. Para a tarefa de força um único pico em 1,81~Hz está presente e na tarefa de posição dois picos (3,05~Hz e 6,01~Hz). É interessante notar que para a tarefa de força as simulações foram feitas com um ganho sináptico menor (máxima condutância sináptica menor) para reproduzir a frequência de pico 
+experimental. Simulações adicionais para a tarefa de força foram feitas sem atividade aferente (linha vermelha da Figura~\ref{fig:specTF}). Nesta condição, nenhum pico estava presente no espectro do torque na faixa de frequências considerada. Isso indica que a malha fechada da qual os aferentes fazem parte está produzindo as oscilações de baixa frequência do torque.
+
+\begin{figure}[h!]
+	\center
+	\subfloat[]{
+	      \includegraphics[height=2.5in]{specTF.eps}
+	      \label{fig:specTF}
+	}
+	\subfloat[]{
+	      \includegraphics[height=2.5in]{specTP.eps}
+	      \label{fig:specTP}
+	}
+	\caption{Espectros do torque em (a) Tarefa de Força (b) Tarefa de Posição}
+	\label{fig:specTFTP}
+\end{figure}
+
+
+Como já foi dito anteriormente, para que os picos espectrais estivessem na mesma frequência dos dados experimentais~\cite{Mello2011d} para a tarefa de força, a máxima condutância sináptica foi menor quando comparado com a tarefa de posição (ver Figura~\ref{fig:frequencyPeak}). O ganho sináptico mais baixo durante a tarefa de força sugere que para o Tríceps Sural, a inibição pré-sináptica é maior do que durante a tarefa de posição, como já mostrado para outros músculos~\cite{Baudry2010}. Seria interessante verificar essa hipótese de maior inibição pré-sináptica durante a tarefa de força de forma experimental. 
+
+
+\begin{figure}[h!]
+	\center
+	\includegraphics[scale=0.3]{frequencyPeak.eps}
+	\caption{Frequência de pico em função da máxima condutância da sinapse Ia-MN. Em destaque estão as condutâncias máximas utilizadas durante a tarefa de força (FT) e durante a tarefa de posição (PT)}
+	\label{fig:frequencyPeak}
+\end{figure}
+
+
+Para verificar se a origem dos picos presentes no espectro de potência do torque da Figura~\ref{fig:specTFTP} estava na ação dos aferentes, foram calculados nos sinais simulados durante a tarefa de posição as coerências dos sinais captados nas diferentes partes da malha fechada da qual os aferentes Ia fazem parte (entre a frequência de disparo de dois motoneurônios; entre o torque e aa frequência de disparo dos motoneurônios; entre a frequência de disparo de um motoneurônio e um aferente Ia; entre o comprimento muscular e a frequência de disparo dos aferentes Ia).  As frequências de disparo foram estimadas convoluindo o trem de impulsos com uma janela retangular de 100~ms. A coerência entre a frequência de disparo de pares de motoneurônios mostram dois picos perto de 3~Hz e de 6~Hz (Figura~\ref{fig:cohere}(a)), mesmas frequências que aparecem no espectro de potência do torque. Esses picos no espectro de torque refletem a alta correlação entre diferentes motoneurônios nessas frequências, devido a entradas 
+comuns (provindas dos aferentes) recebidas pelos diferentes motoneurônios. As outras análises de coerência mostradas na Figura~\ref{fig:cohere} sugerem que essa entrada comum emerge da atividade aferente dos fusos. 
+
+
+\begin{figure}[h!]
+	\centering
+        \includegraphics[scale=0.66]{cohere.eps}
+	\caption{Coerência entre (a) frequência de disparos de dois motoneurônios; (b) frequência de disparos de um motoneurônio e o torque do músculo; (c) frequência de disparos de um motoneurônio e um aferente Ia;  (d) comprimento muscular e frequência de disparo dos aferentes Ia}
+	\label{fig:cohere}
+\end{figure}
+
+Os resultados descritos acima são importantes por sugerirem mecanismos neurofisiológicos na execução de diversas tarefas. Além disso, a execução desse trabalho cumpriu seu objetivo inicial, que era de o bolsista estudar os detalhes da implementação dos aferentes no sistema a ser utilizado no restante do doutorado.
+
+\FloatBarrier
+
+\section{Abordagens estudadas e desenvolvidas de identificação do {\it pool} de motoneurônios}
+\label{sec:ident}
+
+Para realizar a identificação do {\it pool} de motoneurônios a escolha mais imediata é o sinal da condutância dos motoneurônios, por ser esse sinal uma representação de todos os {\it spikes} que chegam ao motoneurônio. Como na identificação do {\it pool} se deseja trabalhar com apenas uma entrada, o uso da condutividade dos motoneurônios ganha uma complicação, já que cada motoneurônio tem um sinal de condutividade diferente, exceto no caso em que a conectividade entre os axônios do comando descendente e os motoneurônios é de 100\% -- ou seja, todos os axônios se  conectando com 100\% dos motoneurônios. A conectividade utilizada neste estudo foi a mesma utilizada em \citeonline{Watanabe2013}: 30 \% (cada axônio do comando descendente se conecta com 30 \% dos motoneurônios de forma aleatória), o que faz com que cada motoneurônio tenha um sinal de condutividade diferente. Considerando isso, o sinal de entrada escolhido não foi a condutância real dos motoneurônios, que é diferente para cada motoneurônio, 
+mas a condutância que os motoneurônios teriam caso a conectividade fosse de 100\%. Na Figura~\ref{fig:inputSignal} está um exemplo de sinal de entrada considerado. Para a identificação do {\it pool} foi utilizado apenas o comando descendente (Figura~\ref{fig:poolstruct}) como sinal de entrada para os motoneurônios. Os aferentes Ia não estavam conectados nos motoneurônios pois não seria possível escolher qual seria a saída dos aferentes, além de complicar consideravelmente a identificação do {\it pool}, pois o sistema estaria em malha fechada. Em cada axônio do comando descendente foi usado processo Poisson, pois esse tipo de processo gera uma condutividade com a potência espectral distribuída igualmente para todo o espectro de frequência, como mostrado em~\citeonline{Watanabe2013}.
+
+\begin{figure}[ht!]
+	\center
+	\includegraphics[scale=0.25]{inputSignal.eps}
+	\caption{Exemplo de sinal de entrada}
+	\label{fig:inputSignal}
+\end{figure}
+
+Como já foi dito anteriormente, para cada {\it spike} que um motoneurônio (o modelo do motoneurônio utilizado está descrito em \citeonline{cisi2008}) gera, é gerado um {\it twitch} utilizando um filtro de segunda-ordem criticamente amortecido~\cite{cisi2008}. Esses sinais de cada motoneurônio são somados para gerar um sinal equivalente a força do músculo. Foi considerado como sinal de saída do {\it pool} de motoneurônios esse sinal de cada {\it pool}. Na Figura~\ref{fig:outputSignal} está um exemplo de sinal de saída considerado. 
+
+\begin{figure}[ht!]
+	\center
+	\includegraphics[scale=0.25]{outputSignal.eps}
+	\caption{Exemplo de sinal de saída}
+	\label{fig:outputSignal}
+\end{figure}
+
+O primeiro teste a ser realizado foi a verificação da necesidade de se obter um modelo não-linear para o sistema ou se um modelo linear seria suficiente para representar o sistema. Para isso foi utilizado o teste descrito em~\citeonline{Billings1983}, no qual foi mostrado que:
+
+\begin{align}
+  \Phi_{y'y'^2}(\tau)=&0, \tau =0,1,\hdots \Leftrightarrow \text{o sistema é linear}\\
+  \Phi_{y'y'^2}(\tau)\neq&0, \tau =0,1,\hdots \Leftrightarrow \text{o sistema é não-linear}
+\end{align}
+
+onde $y'(k)=y(k) - \bar{y}$ e $\Phi_{xy}$ é a correlação cruzada normalizada entre os sinais $x$ e $y$ e é definida como:
+
+\begin{equation}
+  \Phi_{xy}=\frac{\frac{1}{N}\displaystyle\sum_{k=1}^{N-\tau}[x(k)-\bar{x}][y(k+\tau)-\bar{y}]}{\sqrt{\frac{1}{N}\displaystyle\sum_{k=1}^{N-\tau}[x(k)-\bar{x}]^2}\sqrt{\frac{1}{N}\displaystyle\sum_{k=1}^{N-\tau}[y(k)-\bar{y}]^2}}
+\end{equation}
+
+Aplicando este teste ao sinal de saída considerado (o sinal de ativação do músculo), o resultado indicou que o sistema tem não-linearidades significativas. O resultado para uma amostra de sinal está na Figura~\ref{fig:crosscorryy2}.
+
+\begin{figure}[ht!]
+	\center
+	\includegraphics[scale=0.35]{crosscorryy2.eps}
+	\caption{Teste de linearidade do sinal de ativação muscular. As linhas tracejadas em azul mostram o intervalo de confiança de 95\%.}
+	\label{fig:crosscorryy2}
+\end{figure}
+
+
+Como o teste indicou que o sistema é não linear, foi utilizado um método de identificação de sistemas que contemplou a existência de não-linearidades. A seguir será descrito o método usado para identificar o {\it pool} de motoneurônios que forneceu bons resultados. O método utilizado foi o método NARMAX para a identificação do {\it pool}.  Esse método, que encontra a estrutura do modelo não-linear, está descrito a seguir. 
+
+\subsection{Método NARMAX de identificação de sistemas}
+\label{sec:NARMAX}
+
+Um modelo NARMAX tem a seguinte representação:
+
+\begin{equation}
+    y(k) = F\left[y(k-1), y(k-2),\hdots, y(k-m_y), u(k-d), \hdots, u(k-d-m_u), e(k-1), \hdots, e(k-m_e)   \right]
+\end{equation}
+
+
+Em que $u$ é o sinal de entrada do sistema, $y$ é o sinal de saída do sistema e $e$ é o sinal de ruído. A representação do modelo que foi utilizada neste trabalho foi a sua representação polinomial:
+
+\begin{equation}
+  y(k) = \theta_0 + \displaystyle\sum_{i_1=1}^n\theta_{i_1}x_{i_1}(k) + \displaystyle\sum_{i_1=1}^n\sum_{i_2=i_1}^n\theta_{i_1i_2}x_{i_1}(k)x_{i_2}(k)+\hdots+\sum_{i_1=1}^n\hdots\sum_{i_l=i_{l-1}}^n\theta_{i_1i_2\hdots i_l}x_{i_1}x_{i_2}\hdots x_{i_l} + e(k)
+  \label{eq:narmaxpolmodel}
+\end{equation}
+
+com 
+
+\begin{equation}
+x_m(k)=\left\{ \begin{array}{l l}
+u(k-m) & 1\leqslant m \leqslant m_u\\
+y(k-(m - m_u)) & mu+1\leqslant m \leqslant m_u+m_y\\
+e(k - (m - m_u - m_y)) & m_u+m_y+1 \leqslant m \leqslant m_u+m_y+m_e
+\end{array}\right.  
+\end{equation}
+
+
+A Equação~\eqref{eq:narmaxpolmodel} pode ser escrita como:
+
+\begin{equation}
+  y(k) = \displaystyle\sum_{i=1}^M \theta_ip_i(k) + e(k)
+\end{equation}
+
+ou na forma matricial:
+
+\begin{equation}
+ Y = P\Theta+e 
+\end{equation}
+
+em que:
+
+\begin{align}
+ \begin{split}
+  Y&=\left[y(1),y(2), \hdots, y(N)\right]^T\\
+  \Theta &= \left[\theta_1, \theta_2, \hdots, \theta_M \right]^T\\
+  e&=\left[e(1), e(2), \hdots, e(N) \right]^T\\
+  P = \left[p_1,p_2,\hdots, p_M\right] &= \left[\begin{array}{cccc}
+  p_1(1)&p_2(1)&\hdots&p_M(1)\\
+  p_1(2)&p_2(2)&\hdots&p_M(2)\\
+  \vdots&\vdots&\ddots&\vdots\\
+  p_1(N)&p_2(N)&\hdots&p_M(N)
+  \end{array}\right]
+  \end{split}
+  \label{eq:pmatrix}
+\end{align}
+
+Tendo a matriz $P$, com o intuito de estimar cada coeficiente $\theta$ de forma independente, a decompomos ortogonalmente em uma matriz $W$ e uma matriz $A$, de forma que
+
+\begin{equation}
+      P=WA
+\end{equation}
+
+e com isso:
+
+\begin{equation}
+  y = WA\Theta + e = Wg + e
+\end{equation}
+
+em que a matriz $W$ é composta de colunas ortogonais $w_1, w_2, \hdots, w_M$ ($W^TW=\diag[d_1,d_2,\hdots,d_m]$ e $d_i=<w_i,w_i>$) e $g=\left[g_1, g_2,\hdots, g_M \right]^T$. Cada $g_i$ segue a seguinte expressão:
+
+\begin{equation}
+  g_i=\frac{<y, w_i>}{<w_i,w_i>}
+\end{equation}
+
+Os coeficientes $\theta$ são encontrados por $\Theta = A^{-1}g$, sendo os elementos $a_{r,m}$ da matriz $A$ definidos como:
+
+\begin{equation}
+  a_{r,m} = \frac{<p_m, w_r>}{<w_r, w_r>}, 1\leqslant r \leqslant m-1, m=2,3,\hdots, M 
+\end{equation}
+
+A matriz $A$ tem a seguinte forma:
+
+\begin{equation}
+  A=\left[\begin{array}{cccc}
+  1&a_{12}&\hdots&a_{1M}\\
+  0&1&\hdots&a_{2M}\\
+  \vdots&\vdots&\ddots&\vdots\\
+  0&\hdots&1&a_{M-1,M}\\
+  0&0&\hdots&1  \end{array} \right]
+\end{equation}
+
+
+
+A grande vantagem do método NARMAX é a possibilidade de determinar a estrutura do modelo como parte do processo de identificação.  Para isso, primeiramente são selecionados termos candidatos a serem termos do modelo (no caso deste trabalho, cada termo da Equação~\eqref{eq:narmaxpolmodel} é um candidato). Para determinar qual termo é necessário para o modelo, é necessário medir a importância de cada candidato para o sinal de saída $y$. Para esta avaliação, observamos que a variância da saída pode ser dividida em duas partes:
+
+\begin{equation}
+  \frac{1}{N}Y^TY = \frac{1}{N}\displaystyle\sum_{i=1}^M g_i^2w_i^Tw_i + \frac{1}{N}e^Te
+\end{equation}
+
+O termo $\frac{1}{N}g_i^2w_i^Tw_i$ é a parte da saída que é explicada pelo vetor $w_i$. Desta forma, define-se a Taxa de Redução de Erro (ERR na sigla em inglês):
+
+\begin{equation}
+ \text{ERR}_i = \frac{g_i^2<w_i,w_i>}{<y,y>} =\frac{<y,w_i>}{<y,y><w_i,w_i>}, i=1,2,\hdots,M
+\end{equation}
+
+Esta taxa pode ser utilizada para escolher quais dos termos candidatos $p_i$ (que está associado ao vetor $w_i$) têm a maior contribuição para a saída $y$. Desta forma, é possível escrever um algoritmo que seleciona um candidato de cada vez, em ordem de importância para a saída $y$, para compor os termos do modelo. O algoritmo utilizado é o Forward Regression with Orthogonal Least Squares (FROLS), desenvolvido por~\citeonline{Billings1989} e descrito em \citeonline{Billings2013}. O algoritmo consiste em procurar qual dos termos candidatos tem o maior ERR. Uma vez selecionado o termo com o maior ERR, elimina-se este termo da lista de candidatos e realiza-se uma nova busca. Esse procedimento é repetido até que o valor do ERR do termo escolhido seja pequeno o suficiente ou que a soma dos ERRs seja suficientemente próxima de 1. O algoritmo implementado está descrito na Figura~\ref{fig:frols}. O processo de ortogonalização foi implementado utilizando o método modificado de Gram-Schmidt~\cite{Rice1966}, 
+diferentemente do utilizado em~\citeonline{Billings2013}. Esta mudança foi necessária pois o algoritmo de Gram-Schmidt clássico é mal-condicionado numericamente quando o número de vetores é muito grande.
+
+\begin{figure}[!h]
+\lstset{keywords=[ 12 ]{frols, indice, naoPertence, para, tamanho, maximo, de, a, se, devolve, soma, e},linewidth=0.95\linewidth,literate={:=}{{$\gets$}}1 {<=}{{$\leqslant$}}1 {>=}{{$\geqslant$}}1 {<>}{{$\neq$}}1 {rho}{{$\rho$}}1  {p}{{$p$}}1 {qs}{{$qs$}}1 {q}{{$q$}}1 {gs_m}{{$gs_m$}}1 {^T}{{$^T$}}1 {^2}{{$^2$}}1 {ERR_m}{{ERR$_m$}}1 {_s}{{$_s$}}1 {theta}{{$\theta$}}1 {pmatrix}{{\ref{eq:pmatrix}}}1 {^-1}{{$^{-1}$}}1}
+
+\begin{center}
+\begin{lstlisting}[frame=single]
+frols(p, y, numeroDeCandidatos, rho , termosSelecionados, s, q, A, g, err){
+	para (m de 1 a numeroDeCandidatos){
+		se (m naoPertence termosSelecionados){
+			qs(m) := p(m); % A matriz p é definida na Equação pmatrix
+			para (r de 1 a (s-1)){
+				qs(m) := qs(m) - (q(r)^T * qs(m)) / (q(r)^T * q(r)) * q(r); % Gram-Schmidt Modificado
+			}
+			gs(m) := (y^T * qs(m)) / (qs(m)^T * qs(m));
+			ERR(m) := gs(m)^2 * (qs(m)^T * qs(m)) / (y^T * y);
+		}
+	}
+	termosSelecionados(s) := indice(ERR == maximo(ERR));
+	err(s) := ERR(termosSelecionados(s));
+	para (r de 1 a (s-1)){
+		A(r,s) := (q(r)^T * p(termosSelecionados(s))) / (q(r)^T * q(r));
+	}
+	A(s,s) := 1;
+	q(s) := qs(termosSelecionados(s))
+	g(s) := gs(termosSelecionados(s));
+	ESR := 1 - soma(err);
+	se (ESR >= rho){
+		s := s + 1;
+		frols(p, y, numeroDeCandidatos, rho , termosSelecionados, s, q, A, g) % chamada recursiva
+	}
+	se (ESR < rho){
+		theta := A^-1 * g;   
+		devolve theta, termosSelecionados;
+	}
+}
+\end{lstlisting}
+\end{center}
+\vspace{-1.3em}
+\caption{Algoritmo FROLS}
+\label{fig:frols}
+\end{figure}
+
+% A matriz $p$, mostrada na Equação~\eqref{eq:pmatrix}, quando o modelo segue a representação polinomial (Equação~\eqref{eq:narmaxpolmodel}), pode ser montada usando o algoritmo na Figura~\ref{fig:pmatrizbuild}. Apesar de parecer simples a montagem desta matriz, achar uma forma geral para o algoritmo não foi trivial.  
+%
+
+
+Neste trabalho, como o interesse é controle postural foram utilizados como sinais de entrada $u$ e saída $y$, sinais em níveis de torque equivalentes a 10\% e 20\% da contração voluntária máxima. As médias do intervalo entre disparos da entrada global foram as mesmas utilizadas em~\citeonline{Watanabe2013}: 10,2~ms para 10~\% e 9,6~ms para 20~\% da contração voluntária máxima. 
+
+Os sinais foram obtidos do modelo original a uma frequência de amostragem de 20~kHz. Como essa taxa de amostragem  é muito alta para esse sinal, é necessário decimar (ou dizimar) este sinal~\cite{aguirre2007}. \citeonline{aguirre2007} estabeleceu um critério para determinar a que taxa o sinal deve ser decimado. Esse critério é baseado no sinal de autocorrelação dos sinais $y$ e $y^2$, $\Phi_{yy}$ e $\Phi_{y^2y^2}$ respectivamente. Uma vez calculadas as autocorrelações define-se:
+
+\begin{equation}
+    \tau_m = \min\left\{ \tau_y, \tau_{y^2}\right\}
+\end{equation}
+
+Em que $\tau_y$ e o $\tau_{y^2}$ são os primeiros mínimos de cada uma das funções de autocorrelação. Baseado nisso, o período de amostragem do sinal utilizado para a identificação pode ser baseado em $\tau_m$:
+	
+	\begin{equation}
+	    \frac{\tau_m}{20} \leqslant T_s \leqslant \frac{\tau_m}{10}
+	    \label{eq:deccrit}
+	\end{equation}
+
+Na Figura~\ref{fig:crosscorryyMG} se encontram as duas funções de autocorrelação para um exemplo de sinal de saída do músculo gastrocnêmio medial (esse músculo foi escolhido para o teste pois é o músculo que apresenta a saída mais rápida). Observando se os dois gráficos, é encontrado o valor de $\tau_m=460$~ms. Aplicando-se o critério da Equação~\eqref{eq:deccrit}, a frequência de amostragem do sinal a ser utilizada seria a frequência de 40~Hz. Porém, como~\citeonline{Billings2013} observa, caso tenha-se como objetivo analisar o sistema no domínio da frequência, o ideal seria amostrar a uma frequência em torno de 10 vezes maior. Considerando isso, a frequência de amostragem utilizada foi 400~Hz.
+	
+\begin{figure}[h!]
+	\centering
+	\subfloat[]{
+		\includegraphics[scale=0.2]{crosscorryyMG.eps}
+	}
+	\subfloat[]{
+		\includegraphics[scale=0.2]{crosscorry2y2MG.eps}
+	}
+	\caption{Autocorrelações (a) $\Phi_{yy}$ e (b) $\Phi_{y^2y^2}$}
+	\label{fig:crosscorryyMG}
+\end{figure}
+
+Para fazer a identificação do modelo foram utilizados 10 pares de sinal entrada/saída em cada um dos dois níveis de força para cada um dos três músculos, totalizando 60 sinais. Como se deseja uma só estrutura para todos os sinais, foi utilizada uma modificação do algoritmo FROLS que identifica uma só estrutura de modelo para diferentes sinais. A diferença para o algoritmo FROLS básico é que, ao invés de calcular o valor de ERR para cada termo candidato,  é calculado o valor de ERR para cada termo candidato de cada um dos pares entrada/saída considerados. Este algoritmo foi desenvolvido por~\citeonline{Wei2009} e está descrito na Figura~\ref{fig:mfrols}. 
+
+
+\begin{figure}[!h]
+\lstset{keywords=[ 13 ]{media, mfrols, indice, naoPertence, para, tamanho, maximo, de, a, se, devolve, soma, e},linewidth=0.95\linewidth,literate={:=}{{$\gets$}}1 {<=}{{$\leqslant$}}1 {>=}{{$\geqslant$}}1 {<>}{{$\neq$}}1 {rho}{{$\rho$}}1  {p_m}{{$p_m$}}1 {qs_m}{{$qs_m$}}1 {q_r}{{$q_r$}}1 {gs_m}{{$gs_m$}}1 {^T}{{$^T$}}1 {_ j}{{$_j$}}1 {^2}{{$^2$}}1 {ERR_m}{{ERR$_m$}}1 {_s}{{$_s$}}1 {pmatrix}{{\ref{eq:pmatrix}}}1 {theta}{{$\theta$}}1 {^-1}{{$^{-1}$}}1}
+
+\begin{center}
+\begin{lstlisting}[frame=single]
+mfrols(p, y, numeroDeCandidatos, numeroDeSinais, rho , termosSelecionados, s, q, A, g, err){
+	para (j de 1 a numeroDeSinais)
+		para (m de 1 a numeroDeCandidatos){
+			se (m naoPertence termosSelecionados){
+				qs_j(m) := p_j(m); % A matriz p é definida na Equação pmatrix
+				para (r de 1 a (s-1)){
+					 qs_j(m) := qs_j(m) - (q_j(r)^T * qs_j(m)) / (q_j(r)^T * q_(r)) * q_j(r); % Gram-Schmidt Modificado
+				}
+				gs_j(m) := (y_j^T * qs_j(m)) / (qs_j(m)^T * qs_j(m));
+				ERR_j(m) := gs_j(m)^2 * (qs_j(m)^T * qs_j(m)) / (y_j^T * y);
+			}
+		}
+	}
+	termosSelecionados(s) := indice(ERR_j == maximo(media(ERR_j)));
+	err(s) := media(ERR(termosSelecionados(s)));
+	para (j de 1 a numeroDeSinais){
+		para (r de 1 a (s-1)){
+			A_j(r,s) := (q_j(r)^T * p_j(termosSelecionados(s))) / (q_j(r)^T * q_j(r));
+		}
+		A_j(s,s) := 1;
+		q_j(s) := qs_j(termosSelecionados(s))
+		g_j(s) := gs_j(termosSelecionados(s));
+	}
+	ESR := 1 - soma(err);
+	se (ESR >= rho){
+		s := s + 1;
+		mfrols(p, y, numeroDeCandidatos, rho , termosSelecionados, s, q, A, g) % chamada recursiva
+	}
+	se (ESR < rho){
+		para (j de 1 a numeroDeSinais){
+			theta_j := A_j^-1 * g_j;   
+		}
+		devolve theta, termosSelecionados;
+	}
+}
+\end{lstlisting}
+\end{center}
+\vspace{-1.3em}
+\caption{Algoritmo MFROLS}
+\label{fig:mfrols}
+\end{figure}
+
+
+Na primeira fase da identificação, são identificados os termos envolvendo apenas a entrada $u$ e a saída $y$ ($m_e\neq0$). Foram testadas diversas ordens máximas dos termos que compõem a maytriz $p$. Ao testar a ordem máxima como oito, o algoritmo MFROLS não escolheu nenhum termo de oitava ordem. Dessa forma, os testes para descobrir a ordem máxima dos termos da matriz $p$ pararam e adotou-se uma matriz $p$ composta com todas as combinações de $u$ e $y$ até a sétima ordem. Os termos selecionados com o algoritmo MFROLS, e os seus respectivos coeficientes, estão na Tabela~\ref{tab:termosSelecionados}.
+
+\begin{table}[h!]
+\caption{Termos selecionados utilizando o algoritmo MFROLS e seus respectivos coeficientes em 10\% MVC e 20\% MVC}
+\label{tab:termosSelecionados}
+\begin{tabular}{lrr}\hline 
+Termo & $\Theta$ em 10 \%  MVC & $\Theta$ em 20 \% MVC \\ \hline 
+y(k-1) & 2.36e+00 & 2.30e+00 \\ 
+y(k-2) & -1.87e+00 & -1.76e+00 \\ 
+y(k-3) & 6.37e-01 & 6.07e-01 \\ 
+y(k-4) & -1.29e-01 & -1.45e-01 \\ 
+u(k-6) & 2.76e-04 & 3.98e-05 \\ 
+u(k-7) & -8.20e-05 & -2.43e-04 \\ 
+u(k-8) & 4.64e-04 & 6.96e-04 \\ 
+u(k-9) & 6.33e-05 & 4.61e-05 \\ 
+u(k-10) & 7.40e-06 & 8.92e-06 \\ 
+u(k-6)u(k-6)u(k-7) & -7.61e-10 & -1.04e-10 \\ 
+u(k-6)u(k-7)u(k-8) & -3.52e-09 & -2.77e-09 \\ 
+u(k-6)u(k-7)u(k-7) & 3.68e-10 & 6.34e-10 \\ 
+u(k-6)u(k-7)u(k-7)y(k-1) & 8.04e-13 & -2.21e-13 \\ 
+u(k-7)u(k-7)u(k-7)u(k-8)u(k-9) & 1.45e-16 & 2.10e-17 \\ 
+u(k-8)u(k-8)u(k-8)u(k-9)u(k-9) & -6.86e-17 & 1.17e-19 \\ 
+u(k-6)u(k-6)u(k-7)u(k-7)u(k-8) & 6.45e-15 & 3.07e-15 \\ 
+u(k-6)u(k-7)u(k-7)u(k-8)y(k-1) & -1.82e-12 & -9.20e-13 \\ 
+u(k-6)u(k-7)u(k-7)u(k-8)y(k-3) & -1.78e-12 & -9.04e-13 \\ 
+u(k-6)u(k-7)u(k-7)u(k-8)y(k-2) & 3.60e-12 & 1.82e-12 \\ 
+u(k-6)u(k-8)u(k-8)u(k-8)y(k-3) & 3.15e-16 & -8.78e-17 \\ 
+u(k-6)u(k-6)u(k-7)u(k-7)u(k-7)y(k-1) & 2.45e-15 & 1.16e-15 \\ 
+u(k-6)u(k-6)u(k-7)u(k-7)u(k-7)y(k-2) & -4.93e-15 & -2.36e-15 \\ 
+u(k-6)u(k-6)u(k-7)u(k-7)u(k-7)y(k-3) & 2.47e-15 & 1.20e-15 \\ 
+u(k-6)u(k-6)u(k-6)u(k-7)u(k-7)u(k-7)u(k-8) & -3.64e-21 & -1.73e-21 \\ 
+u(k-6)u(k-6)u(k-6)u(k-6)u(k-6)u(k-7)u(k-8) & 8.64e-22 & 3.69e-22 \\ 
+u(k-6)u(k-6)u(k-6)u(k-7)u(k-7)u(k-8)u(k-8) & -6.04e-22 & 1.20e-22 \\ 
+u(k-6)u(k-6)u(k-6)u(k-6)u(k-7)u(k-7)u(k-7) & 8.04e-22 & 2.11e-22 \\ 
+u(k-6)u(k-6)u(k-6)u(k-6)u(k-6)u(k-6)y(k-1) & -4.54e-22 & -1.73e-22 \\ \hline 
+\end{tabular}
+\end{table}
+
+O viés (ou {\it bias}) da estimação de $\Theta$ é definido como:
+
+\begin{align}
+  b &= E[\hat{\Theta}] - \Theta = E[(P^TP)^{-1}P^Ty] - \Theta = \nonumber \\ 
+  &=E[(P^TP)^{-1}P^T(P\Theta + e)] - \Theta= \nonumber \\ 
+  &=E[(P^TP)^{-1}(P^TP)\Theta + (P^TP)^{-1}P^Te] - \Theta=\\
+  &=E[\Theta - \Theta] + E[(P^TP)^{-1}P^TPe]=E[(P^TP)^{-1}P^Te] = \nonumber \\
+  &=(P^TP)^{-1}E[P^Te]
+\end{align}
+
+O operador $E[x]$ representa a esperança de $x$. A definição do {\it bias} da estimaçãode $\Theta$ é claramente a distância entre a variável estimada do valor real. Para que o {\it bias} seja zero temos que:
+
+\begin{equation}
+  b = (P^TP)^{-1}E[P^Te] = 0 \Leftrightarrow  E[P^Te] = 0
+\end{equation}
+
+Em outras palavras, é necessário que cada coluna da matriz $P$ seja descorrelacionada do erro $e$. Caso $e$ dependa de termos passados do erro ($e(k-1), e(k-2), \hdots$) e da entrada e saída (termos como $e(k-1)y(k-1), e(k-3)u(k-6), \hdots$), $e$  não será descorrelacionado dos regressores do modelo (colunas de $P$).   
+
+Para verificar se os regressores do modelo são descorrelacionados de $e$, ~\citeonline{billings1986} desenvolveram testes baseados na correlação dos resíduos ($e(k) = y(k) - \hat{y}(k|k-1)$). Esses testes são: 
+
+
+\begin{align}
+ \begin{split}
+	\Phi_{ee}(\tau) &= \delta(\tau),  \forall \tau \\
+	\Phi_{e u}(\tau) &= 0, \forall \tau \\
+	\Phi_{e(eu)}(\tau) &= 0 ,  \tau \geqslant 0\\
+ \end{split}
+ \label{eq:phicrit}
+\end{align}
+
+O símbolo $\delta(\tau)$ representa a função delta de Kronecker (valor 1 para $\tau=0$ e 0 caso contrário) e $(eu)(k)=e(k+1)u(k+1)$. Os dois primeiros testes referem-se a termos lineares que eventualmente não estejam presentes no modelo. O terceiro teste refere-se a termos não-lineares que não estiverem presentes no modelo. Na Figura~\ref{fig:testescross_before} estão o testes referentes ao modelo da Tabela~\ref{tab:termosSelecionados}. 
+
+\begin{figure}[h!]
+	\centering
+	\subfloat[]{
+		\includegraphics[scale=0.16]{phixixi_before.eps}
+	}
+	\subfloat[]{
+		\includegraphics[scale=0.16]{phixiu_before.eps}
+	}
+	\subfloat[]{
+		\includegraphics[scale=0.16]{phixixiu_before.eps}
+	}
+	\caption{Testes baseados na correlação do resíduo (a) $\Phi_{ee}$ e (b) $\Phi_{e u}$ (c) $\Phi_{e(e u)}$. As linhas tracejadas em azul indicam o intervalo de confiança de 95\%}
+	\label{fig:testescross_before}
+\end{figure}
+
+Como observa-se na Figura~\ref{fig:testescross_before}, os três testes  indicam que existem regressores que são correlacionados com o erro, pois valores que deveriam dar zero ficam fora no intervalo de confiança adotado. Isso faz com que a estimativa dos coeficientes na Tabela~\ref{tab:termosSelecionados} estejam enviesados. Por isso é necessário modelar o erro $e$, incluido na matriz $P$ regressores para o erro. Para isso é utilizado novamente o algoritmo MFROLS (Figura~\ref{fig:mfrols}), mas dessa vez montando a matriz de regressores com todas as combinações de $u$, $y$ e $e$ (o mesmo $e$ utilizado para calcular os testes de correlação da Figura~\ref{fig:testescross_before}). Ao longo do texto esa matriz dos regressores do ruído é denominada de $P_n$. Os termos encontrados estão na Tabela~\ref{tab:noiseTerms}.
+
+
+\begin{table}[h!]
+\caption{Termos do modelo do ruído}
+\label{tab:noiseTerms}
+\centering
+ \begin{tabular}{l}\hline 
+Termo \\ \hline 
+e(k-7)  \\ 
+e(k-8)  \\ 
+e(k-9)  \\ 
+e(k-10)  \\ 
+e(k-11)  \\ 
+e(k-12)  \\ 
+e(k-13)  \\ 
+e(k-14)  \\ 
+e(k-15)  \\ 
+e(k-16)  \\ 
+e(k-17)  \\ 
+u(k-6)e(k-6)  \\ 
+u(k-7)e(k-7)  \\ 
+u(k-6)e(k-7)  \\ 
+u(k-7)e(k-6)  \\ 
+u(k-6)u(k-6)e(k-3)  \\ 
+u(k-6)u(k-6)u(k-7)e(k-2)  \\ 
+u(k-6)u(k-7)u(k-7)e(k-4)  \\ 
+u(k-6)u(k-6)u(k-7)e(k-4)  \\ 
+u(k-6)u(k-6)u(k-7)e(k-5)  \\ 
+u(k-6)u(k-7)u(k-7)e(k-5)  \\ 
+u(k-6)u(k-6)u(k-8)e(k-4)  \\ 
+u(k-6)u(k-6)e(k-2)e(k-2)  \\ 
+u(k-6)u(k-6)e(k-1)e(k-1)  \\ 
+u(k-6)u(k-6)e(k-3)e(k-3)  \\
+u(k-7)u(k-7)u(k-7)u(k-7)e(k-6)  \\ 
+u(k-6)u(k-6)u(k-7)u(k-7)e(k-2)  \\ 
+u(k-6)u(k-6)u(k-6)e(k-2)e(k-2)e(k-3)  \\ 
+u(k-6)u(k-7)u(k-7)u(k-7)u(k-7)e(k-2)  \\ 
+u(k-7)u(k-7)u(k-7)u(k-7)u(k-7)e(k-1)  \\ 
+u(k-6)u(k-6)u(k-7)u(k-7)y(k-3)e(k-1)  \\ 
+u(k-7)u(k-7)u(k-7)u(k-7)e(k-1)e(k-1)  \\ 
+u(k-7)u(k-7)u(k-7)u(k-7)u(k-7)e(k-3)  \\ 
+u(k-6)u(k-6)u(k-7)u(k-7)e(k-1)e(k-3)  \\ 
+u(k-7)u(k-7)u(k-7)u(k-7)u(k-7)e(k-5)  \\ 
+u(k-7)u(k-7)u(k-7)e(k-1)e(k-3)e(k-3)  \\  \hline 
+\end{tabular}
+\end{table}
+
+Após encontrar todos os termos do modelo, incluindo o modelo do ruído, é necessário recalcular os coeficientes do modelo. Para isso, o resíduo do modelo encontrado com os coeficientes da Tabela~\ref{tab:termosSelecionados} é utilizado para montar a matriz $P_n$, da mesma forma que se montou para encontrar os termos do ruído (Tabela~\ref{tab:noiseTerms}). Com isso se recalcula o valor de $\Theta$ e, utilizando o novo valor de $\Theta$, é calculado o resíduo do novo modelo. Esse novo resíduo é utilizado para montar uma nova matriz $P_n$. O processo se repete até que os resíduos entre um passo e outro sejam próximos (neste trabalho foi adotado o valor de $\delta = e_{\text{novo}} - e_{\text{anterior}} \leqslant 0,001$). Esse algoritmo é conhecido como mínimos quadrados extendido (ELS na sigla em inglês). O algoritmo na forma implementada está na Figura~\ref{fig:els}.
+
+\begin{figure}[!h]
+\lstset{keywords=[ 15 ]{rms, calculaResiduo, montaNovaMatrizRegressoresRuido, els, indice, naoPertence, para, tamanho, maximo, de, a, se, devolve, soma, e},linewidth=0.95\linewidth,literate={:=}{{$\gets$}}1 {<=}{{$\leqslant$}}1 {>=}{{$\geqslant$}}1 {<>}{{$\neq$}}1 {rho}{{$\rho$}}1  {p_m}{{$p_m$}}1 {qs_m}{{$qs_m$}}1 {q_r}{{$q_r$}}1 {gs_m}{{$gs_m$}}1 {^T}{{$^T$}}1 {^2}{{$^2$}}1 {ERR_m}{{ERR$_m$}}1 {_s}{{$_s$}}1 {theta}{{$\theta$}}1 {delta}{{$\delta$}}1 {epsilon}{{$\epsilon$}}1 {_j}{{$_j$}}1 {^-1}{{$^{-1}$}}1}
+
+\begin{center}
+\begin{lstlisting}[frame=single]
+els(pp, pn, u, y, residuo, delta, termosSelecionados, numeroDeSinais){
+	p := [pp pn]; % pp é a a matriz de regressores dos termos do modelo e pn é a matriz de regressores do ruído
+	para (j de 1 a numeroDeSinais){
+		Wk_j := p_j;
+		para (m de 1 a tamanho(termosSelecionados)){
+			W_j(m) := Wk_j(m);
+			para (r de (m+1) a M){
+				Wk_j(r) := Wk_j(r) - (Wk_j(r)^T*W_j(m))/(W_j(m)^T*W_j(m))*W_j(m);
+			}
+			A_j(m,m) := 1;
+			para (r de 1 a (m-1)){
+				A_j(r,m) := (p_j(m)^T*W_j(r))/(W_j(r)^T*W_j(m)); 
+			}
+			g_j(m) := (W_j(m)^T*y_j)/(W_j(m)^T*W_j(m));
+		}
+		theta_j := A_j^-1*g_j
+		novoResiduo_j := calculaResiduo(u_j, y_j, residuo_j, theta_j, termosSelecionados);
+		novaPn_j := montaNovaMatrizRegressoresRuido(u_j, y_j, novoResiduo_j, termosSelecionados);
+		diferenca_j := rms(residuo_j - novoResiduo_j);
+	}
+	se (maximo(diferenca) > delta){
+		  els(pp, novaPn, u, y, novoResiduo, delta, termosSelecionados, numeroDeSinais); % chamada recursiva
+	}
+	devolve theta
+}
+\end{lstlisting}
+\end{center}
+\vspace{-1.3em}
+\caption{Algoritmo ELS}
+\label{fig:els}
+\end{figure}
+
+Com a utilização do ELS, após 6 iterações a diferença dos resíduos ficou abaixo de 0,001. Após as 6 iterações, os novos coeficientes do modelo foram os que estão na Tabela~\ref{tab:coefELS}. É interessante notar que os valores dos novos coeficientes são ligeiramente diferentes dos encontrados na Tabela~\ref{tab:termosSelecionados}.
+
+\begin{table}[h!]
+\caption{Coeficientes em 10\% MVC e 20\% MVC após o uso do algoritmo ELS}
+\label{tab:coefELS}
+\begin{tabular}{lrr}\hline 
+Termo & $\Theta$ em 10 \%  MVC & $\Theta$ em 20 \% MVC \\ \hline 
+y(k-1) & 2.08e+00 & 2.06e+00 \\ 
+y(k-2) & -1.22e+00 & -1.24e+00 \\ 
+y(k-3) & 1.87e-01 & 2.98e-01 \\ 
+y(k-4) & -4.56e-02 & -1.12e-01 \\ 
+u(k-6) & -1.31e-04 & -1.18e-04 \\ 
+u(k-7) & 1.68e-06 & -8.53e-05 \\ 
+u(k-8) & 2.77e-04 & 4.28e-04 \\ 
+u(k-9) & 6.60e-05 & 3.72e-05 \\ 
+u(k-10) & 3.17e-06 & 1.11e-05 \\ 
+u(k-6)u(k-6)u(k-7) & -8.82e-11 & 6.67e-11 \\ 
+u(k-6)u(k-7)u(k-8) & -2.15e-09 & -1.74e-09 \\ 
+u(k-6)u(k-7)u(k-7) & 1.45e-10 & 2.74e-10 \\ 
+u(k-6)u(k-7)u(k-7)y(k-1) & -7.95e-13 & -3.79e-13 \\ 
+u(k-7)u(k-7)u(k-7)u(k-8)u(k-9) & 2.57e-16 & 5.72e-17 \\ 
+u(k-8)u(k-8)u(k-8)u(k-9)u(k-9) & -1.57e-16 & -1.58e-17 \\ 
+u(k-6)u(k-6)u(k-7)u(k-7)u(k-8) & 4.60e-15 & 2.28e-15 \\ 
+u(k-6)u(k-7)u(k-7)u(k-8)y(k-1) & -2.92e-13 & -2.20e-13 \\ 
+u(k-6)u(k-7)u(k-7)u(k-8)y(k-3) & -2.23e-13 & -1.77e-13 \\ 
+u(k-6)u(k-7)u(k-7)u(k-8)y(k-2) & 5.14e-13 & 3.98e-13 \\ 
+u(k-6)u(k-8)u(k-8)u(k-8)y(k-3) & 4.40e-16 & -1.71e-17 \\ 
+u(k-6)u(k-6)u(k-7)u(k-7)u(k-7)y(k-1) & 1.19e-15 & 6.42e-16 \\ 
+u(k-6)u(k-6)u(k-7)u(k-7)u(k-7)y(k-2) & -2.38e-15 & -1.29e-15 \\ 
+u(k-6)u(k-6)u(k-7)u(k-7)u(k-7)y(k-3) & 1.19e-15 & 6.53e-16 \\ 
+u(k-6)u(k-6)u(k-6)u(k-7)u(k-7)u(k-7)u(k-8) & -1.54e-21 & -9.35e-22 \\ 
+u(k-6)u(k-6)u(k-6)u(k-6)u(k-6)u(k-7)u(k-8) & 1.05e-21 & 3.74e-22 \\ 
+u(k-6)u(k-6)u(k-6)u(k-7)u(k-7)u(k-8)u(k-8) & -1.41e-21 & -2.20e-22 \\ 
+u(k-6)u(k-6)u(k-6)u(k-6)u(k-7)u(k-7)u(k-7) & -3.91e-22 & -4.94e-23 \\ 
+u(k-6)u(k-6)u(k-6)u(k-6)u(k-6)u(k-6)y(k-1) & -3.88e-22 & -1.42e-22 \\ \hline 
+\end{tabular}
+\end{table}
+
+Utilizando o novo modelo (incluindo o modelo do ruído), é calculado o novo resíduo $e$ e então os testes da Equação~\eqref{eq:phicrit} são feitos novamente utilizando o novo resíduo $e$. Estes testes estão na Figura~\ref{fig:testescross}. 
+
+
+\begin{figure}[ht!]
+	\centering
+	\subfloat[]{
+		\includegraphics[scale=0.14]{phixixi.eps}
+	}
+	\subfloat[]{
+		\includegraphics[scale=0.14]{phixiu.eps}
+	}
+	\subfloat[]{
+		\includegraphics[scale=0.14]{phixixiu.eps}
+	}
+	\caption{Testes baseados na correlação do erro (a) $\Phi_{ee}$ e (b) $\Phi_{eu}$ (c) $\Phi_{e(eu)}$ após o uso do ELS}
+	\label{fig:testescross}
+\end{figure}
+
+Observando os novos testes, nota-se que todos os três critérios da Equação~\eqref{eq:phicrit} foram satisfeitos. Vale notar que apesar de todos os critérios  terem sido obedecidos, existem outros critérios mais específicos que poderiam identificar algum outro tipo de correlação não detectado por esses testes. No entanto os testes utilizados costumam detectar a maioria das correlações entre os regressores de $P$ e $e$~\cite{Billings2013}.
+
+Abaixo seguem alguns gráficos de dados, no domínio do tempo e da frequência, que foram calculados da saída do modelo final encontrado. Esses testes foram feitos utilizando sinais de entrada que não foram utilizados no processo de identificação. Os sinais obtidos com o modelo são comparados, no mesmo gráfico, com as saídas do modelo original. Como o sistema modelado é um sistema estocástico, não é esperado que o sinal vindo do modelo identificado seja idêntico ao sinal original. Por isso são feitas medidas no domínio da frequência (espectros) e do tempo (correlações). 
+
+Na Figura~\ref{fig:predictedOutput}, estão os sinais provenientes de duas simulações diferentes, em dois níveis de força diferentes. Em 10\% MVC foram utilizados processos Poisson nos axônios do comando descendente  em 20 \% foram utilizados processos Gamma de ordem 6. As simulações realizadas foram totalmente livres, ou seja, apenas o sinal de entrada foi utiizado. O sinal de saída do modelo original não foi utilizado em nenhum momento. As simulações tiveram um tempo equivalente a 15 segundos. Nas figuras são mostrados os últimos 12 segundos.
+
+
+\begin{figure}[ht!]
+	\center
+	\subfloat[]{
+		\includegraphics[scale=0.2]{predictedOutput.eps}
+	}
+	\subfloat[]{
+		 \includegraphics[scale=0.2]{predictedOutputGamma.eps}
+	}
+	\caption{Sinais do modelo original e obtido em uma simulação livre de 15 segundos utilizando o modelo identificado para dois sinais de entrada diferentes. São mostrados os últimos 12 segundos. (a) O sinais originais foram obtidos em simulações equivalentes a 10\% da contração voluntária máxima e utilizando nos axônio dos axônios descendentes processos Poisson. (b) O sinais originais foram obtidos em simulações equivalentes a 20\% da contração voluntária máxima e utilizando nos axônio dos axônios descendentes processos Gamma.}
+	\label{fig:predictedOutput}
+\end{figure}
+
+Na Figura~\ref{fig:outputSpectrum} são mostrados duas análises feitas no domínio da frequência. Em uma delas é analisado o conteúdo espectral da saída $y$. Na outra é computado o espectro cruzado entre a entrada e a saída. Em ambos os gráficos, as curvas provindas do modelo identificado segue a do modelo original.
+
+\begin{figure}[ht!]
+	\center
+	\subfloat[]{
+		\includegraphics[scale=0.2]{outputSpectrum.eps}
+	}
+	\subfloat[]{
+		\includegraphics[scale=0.2]{outputCrossSpectrum.eps}  
+	}	
+	\caption{(a)Espectro de potência dos sinais de saída do modelo original e do modelo identificado. (b) Espectro cruzado do sinal de entrada com os de saída  do modelo original e do modelo identificado.}
+	\label{fig:outputSpectrum}
+\end{figure}
+
+Na Figura~\ref{fig:crosscorryyPredicted} são mostrados duas análises feitas no domínio do tempo. Na primeira é calculada a autocorrelação da saída $y$. Na segunda é calculada a correlação cruzada entre a entrada e a saída. Em ambos os gráficos, as curvas provindas do modelo identificado segue a do modelo original.
+
+\begin{figure}[ht!]
+	\center
+	\subfloat[]{
+		\includegraphics[scale=0.2]{crosscorryyPredicted.eps}
+	}
+	\subfloat[]{
+		\includegraphics[scale=0.2]{crosscorruyPredicted.eps}
+	}
+	\caption{(a) Autocorrelação dos sinais de saída (b) Correlação cruzada entre os sinais de entrada e o de saída.}
+	\label{fig:crosscorryyPredicted}
+\end{figure}
+
+As Figuras~\ref{fig:predictedOutput}, \ref{fig:outputSpectrum}, \ref{fig:crosscorryyPredicted} mostram que a abordagem adotada foi bem sucedida em representar a saída do modelo mais complexo, utilizando um modelo relativamente  mais simples. Porém, além de representar a saída, um dos objetivos do trabalho é de poder interpretar os parâmetos do modelo em relação à fisiologia. Para mostrar que é possível realizar esse tipo de análise em um modelo do tipo NARMAX, foram utilizados os mesmos termos selecionados (mostrados na Tabela~\ref{tab:coefELS}) para analisar como os coeficientes do modelo variam com o número de unidades motoras no músculo. Para isso foram feitas simulações no modelo original  com um músculo, em 20 \%. Em cada simulação este músculo tinha a uma quantidade de unidades motoras diferente. Após isso, o algoritmo ELS (Figura~\ref{fig:els}) foi utilizado para recalcular os coeficientes em cada situação. Na Figura~\ref{fig:varMU} estão os gráficos dos valores dos coeficientes do modelo para cada número de unidades motoras empregadas. 
+
+
+\begin{figure}[h!]
+	\center
+	\subfloat[]{
+		\includegraphics[scale=0.2]{varMUy.eps}
+	}
+	\subfloat[]{
+		\includegraphics[scale=0.2]{varMUu.eps}
+	}\\	
+	\subfloat[]{
+		\includegraphics[scale=0.2]{varMUuLog.eps}
+	}
+	\caption{(a) Valores dos coeficientes de termos do modelo que só dependem de $y$ (primeiros 4 termos) (b) Valores dos coeficientes de termos do modelo que dependem de $u$ (do quinto ao vigésimo oitavo  termo) (c) Valores dos coeficientes de termos do modelo que dependem de $u$ com a ordenada em escala logarítmica (o logaritmo dos valores dos coeficientes foram calculados a partir dos valores absolutos dos coeficientes)}
+	\label{fig:varMU}
+\end{figure}
+
+Pelos gráficos da Figura~\ref{fig:varMU} pode-se observar que os coeficientes dos termos que dependem apenas de $y$ independem do número de unidades motoras do músculo. Já os coeficientes dos termos que envolvem a entrada $u$ decrescem (em módulo) de forma aproximadamente exponencial com o crescimento do número de unidades motoras. Esse tipo de análise será feita com diversos parâmetros do modelo original (conectividade do comando descendente, limiar de recrutamento, etc).
+
+Além da análise da influência dos parâmetros do modelo original nos valores dos coeficientes, o modelo obtido será convertido de tempo discreto para tempo contínuo, utilizando uma extensão do método da invariância do impulso~\cite{Oppenheim1975} para sistemas não-lineares, apresentado por ~\citeonline{Billings2013}.

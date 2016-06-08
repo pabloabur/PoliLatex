@@ -1,0 +1,25 @@
+%%% modifica a maneira de apresentar a lista de siglas
+	\def\bflabel#1{{{\textsf{#1}}\hfill}}
+	\renewenvironment{AC@deflist}[1]%
+	      {\if AC@nolist%
+		\else%
+		    \raggedright\begin{list}{}%
+		    {\settowidth{\labelwidth}{\textsf{#1}+8pt}%
+		    \setlength{\leftmargin}{\labelwidth}%
+		    \setlength{\itemsep}{0.5pt}%
+		    \addtolength{\leftmargin}{\labelsep}%
+		    \renewcommand{\makelabel}{\bflabel}}%
+		 \fi}%
+		{\if AC@nolist%
+		  \else%
+		    \end{list}%
+		\fi}%
+
+\pretextualchapter{Lista de Siglas}
+
+\begin{acronym}[NARMAX]
+	\acro{USP}[USP]{Universidade de São Paulo}
+\end{acronym}
+
+
+

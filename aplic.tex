@@ -1,0 +1,109 @@
+\chapter{Uma aplicação das respostas em frequências generalizadas para o estudo de controle motor}
+\label{cap:aplic}
+
+
+Utilizando o método exposto no Capítulo~\ref{cap:GFRF}, foram obtidas as \acp{GFRF} do modelo encontrado no Capítulo~\ref{cap:ident}.
+
+\begin{align}
+ \scriptscriptstyle H_1(f_1)=&\scriptscriptstyle\frac{\left(1.4\cdot 10^{-15}\right)\, \mathrm{e}^{- 0.094\, \mathrm{f1}\, \mathrm{j}}\, \left(\left(4.9\cdot 10^{15}\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}} + 1.8\cdot 10^{15}\right)}{1.4\cdot 10^4 + \left(1.5\cdot 10^5\right)\, \mathrm{e}^{0.031\, \mathrm{f1}\, \mathrm{j}} + \left(1.0\cdot 10^5\right)\, \mathrm{e}^{0.063\, \mathrm{f1}\, \mathrm{j}} - \left(2.2\cdot 10^5\right)\, \mathrm{e}^{0.047\, \mathrm{f1}\, \mathrm{j}} - \left(4.5\cdot 10^4\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}}}\\
+ \scriptscriptstyle H_2(f_1,f_2)=&\scriptscriptstyle 0\\
+ \scriptscriptstyle H_3(f_1,f_2,f_3) =& \scriptscriptstyle-\frac{\left(6.5\cdot 10^{-3}\right)\, \mathrm{e}^{(- 0.094\, \mathrm{f1}\, \mathrm{j} - 0.11\, \mathrm{f2}\, \mathrm{j} - 0.13\, \mathrm{f3}\, \mathrm{j}})}{1.0 + 1.5\, \mathrm{e}^{- 0.031(\mathrm{f1}+\mathrm{f2}+\mathrm{f3}) \mathrm{j}} + 0.14\, \mathrm{e}^{- 0.063(\mathrm{f1}+\mathrm{f2}+ \mathrm{f3})\mathrm{j}} - 0.45\, \mathrm{e}^{ - 0.047(\, \mathrm{f1}  + \mathrm{f2}+\mathrm{f3}) \mathrm{j}} - 2.2\, \mathrm{e}^{- 0.016( \mathrm{f1}+ \mathrm{f2} \mathrm{f3}) \mathrm{j}}}\\
+ \scriptscriptstyle H_4(f_1,f_2,f_3,f_4)=&\scriptscriptstyle-\frac{\left(5.4\cdot 10^{-18}\right)\, \mathrm{e}^{- 0.094\, \mathrm{f1}\, \mathrm{j}}\, \mathrm{e}^{ - 0.094\, \mathrm{f2}\, \mathrm{j} - 0.094\, \mathrm{f3}\, \mathrm{j} - 0.11\, \mathrm{f4}\, \mathrm{j}}\, \mathrm{e}^{- 0.031\, \mathrm{f1}\, \mathrm{j}}\, \left(\left(4.9\cdot 10^{15}\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}} + 1.8\cdot 10^{15}\right)}{\scriptscriptstyle\left[\begin{array}{l}\scriptscriptstyle\left(1.0 - 2.2\, \mathrm{e}^{- 0.016(\mathrm{f1}+\mathrm{f2}+\mathrm{f3}+\mathrm{f4}) \mathrm{j}} + 1.5\, \mathrm{e}^{-0.031(\mathrm{f1}+\mathrm{f2}+\mathrm{f3}+\mathrm{f4})\mathrm{j}} + 0.14\, \mathrm{e}^{-0.063(\mathrm{f1}+\mathrm{f2}+\mathrm{f3}+\mathrm{f4})\mathrm{j}} - 0.45\, \mathrm{e}^{-0.047(\mathrm{f1}+\mathrm{f2}+\mathrm{f3}+\mathrm{f4})\mathrm{j}}\right)\cdot\\ \scriptscriptstyle\cdot\left(1.4\cdot 10^4 + \left(1.5\cdot 10^5\right)\, \mathrm{e}^{0.031\, \mathrm{f1}\, \mathrm{j}} + \left(1.0\cdot 10^5\right)\, \mathrm{
+e}^{0.063\, \mathrm{f1}\, \mathrm{j}} - \left(2.2\cdot 10^5\right)\, \mathrm{e}^{0.047\, \mathrm{f1}\, \mathrm{j}} - \left(4.5\cdot 10^4\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}}\right)\end{array}\scriptscriptstyle\right]}\\
+ \scriptscriptstyle H_5(f_1,f_2,f_3,f_4,f_5)=&\scriptscriptstyle\frac{\left(\begin{array}{l}\scriptscriptstyle 0.11\, \mathrm{e}^{(- 0.094\, \mathrm{f1}\, \mathrm{j} - 0.094\, \mathrm{f2}\, \mathrm{j} - 0.11\, \mathrm{f3}\, \mathrm{j} - 0.11\, \mathrm{f4}\, \mathrm{j} - 0.13\, \mathrm{f5}\, \mathrm{j})} + \\ 
+ \scriptscriptstyle \frac{\left(9.2\cdot 10^{-15}\right)\, \mathrm{e}^{ - 0.11\, \mathrm{f1}\, \mathrm{j} - 0.094\, \mathrm{f2}\, \mathrm{j} - 0.11\, \mathrm{f3}\, \mathrm{j} - 0.11\, \mathrm{f4}\, \mathrm{j} - 0.13\, \mathrm{f5}\, \mathrm{j}}\, \left(\left(4.9\cdot 10^{15}\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}} + 1.8\cdot 10^{15}\right)}{1.4\cdot 10^4 + \left(1.5\cdot 10^5\right)\, \mathrm{e}^{0.031\, \mathrm{f1}\, \mathrm{j}} + \left(1.0\cdot 10^5\right)\, \mathrm{e}^{0.063\, \mathrm{f1}\, \mathrm{j}} - \left(2.2\cdot 10^5\right)\, \mathrm{e}^{0.047\, \mathrm{f1}\, \mathrm{j}} - \left(4.5\cdot 10^4\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}}} + \\ \scriptscriptstyle + \frac{\left(1.1\cdot 10^{-14}\right)\, \mathrm{e}^{ - 0.14\, \mathrm{f1}\, \mathrm{j} - 0.094\, \mathrm{f2}\, \mathrm{j} - 0.11\, \mathrm{f3}\, \mathrm{j} - 0.11\, \mathrm{f4}\, \mathrm{j} - 0.13\, \mathrm{f5}\, \mathrm{j}}\, \left(\left(4.9\cdot 10^{15}\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}} + 1.8\
+cdot 10^{15}\right)}{1.4\cdot 10^4 + \left(1.5\cdot 10^5\right)\, \mathrm{e}^{0.031\, \mathrm{f1}\, \mathrm{j}} + \left(1.0\cdot 10^5\right)\, \mathrm{e}^{0.063\, \mathrm{f1}\, \mathrm{j}} - \left(2.2\cdot 10^5\right)\, \mathrm{e}^{0.047\, \mathrm{f1}\, \mathrm{j}} - \left(4.5\cdot 10^4\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}}} -\\-\scriptscriptstyle \frac{\left(2.0\cdot 10^{-14}\right)\, \mathrm{e}^{ - 0.13\, \mathrm{f1}\, \mathrm{j} - 0.094\, \mathrm{f2}\, \mathrm{j} - 0.11\, \mathrm{f3}\, \mathrm{j} - 0.11\, \mathrm{f4}\, \mathrm{j} - 0.13\, \mathrm{f5}\, \mathrm{j}}\, \left(\left(4.9\cdot 10^{15}\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}} + 1.8\cdot 10^{15}\right)}{1.4\cdot 10^4 + \left(1.5\cdot 10^5\right)\, \mathrm{e}^{0.031\, \mathrm{f1}\, \mathrm{j}} + \left(1.0\cdot 10^5\right)\, \mathrm{e}^{0.063\, \mathrm{f1}\, \mathrm{j}} - \left(2.2\cdot 10^5\right)\, \mathrm{e}^{0.047\, \mathrm{f1}\, \mathrm{j}} - \left(4.5\cdot 10^4\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}
+}}\end{array}\right)}{\left(\begin{array}{l}\scriptscriptstyle1.0+ \left(1.5\right)\, \mathrm{e}^{-0.031(\mathrm{f1}+\mathrm{f2}+\mathrm{f3}+\mathrm{f4}+\mathrm{f5})\mathrm{j}} + \left(1.4\cdot 10^{-1}\right)\, \mathrm{e}^{-0.063(\mathrm{f1}+\mathrm{f2}+ \mathrm{f3}+\mathrm{f4}+\mathrm{f5})\mathrm{j}} -\\\scriptscriptstyle - \left(4.5\cdot 10^{-1}\right)\mathrm{e}^{-0.047(\mathrm{f1}+\mathrm{f2}+\mathrm{f3}+\mathrm{f4}+\mathrm{f5})\mathrm{j}} - \left(2.2\right)\, \mathrm{e}^{-0.016(\mathrm{f1}+\mathrm{f2}+\mathrm{f3}+\mathrm{f4}+\mathrm{f5})\mathrm{j}}\end{array}\right)}\\
+ \scriptscriptstyle H_6(f_1,f_2,f_3,f_4,f_5,f_6)=&\scriptscriptstyle\frac{\left[\begin{array}{l}\scriptscriptstyle\frac{\left(2.6\cdot 10^{-5}\right)\, \mathrm{e}^{ - 0.094\, \mathrm{f1}\, \mathrm{j} - 0.11\, \mathrm{f2}\, \mathrm{j} - 0.13\, \mathrm{f3}\, \mathrm{j}}\, \mathrm{e}^{ - 0.031\, \mathrm{f1}\, \mathrm{j} - 0.031\, \mathrm{f2}\, \mathrm{j} - 0.031\, \mathrm{f3}\, \mathrm{j}}\, \mathrm{e}^{ - 0.094\, \mathrm{f4}\, \mathrm{j} - 0.094\, \mathrm{f5}\, \mathrm{j} - 0.11\, \mathrm{f6}\, \mathrm{j}}}{1.0 + 1.5\, \mathrm{e}^{-0.031(\mathrm{f1}+\mathrm{f2}+\mathrm{f3})\mathrm{j}} + 0.14\, \mathrm{e}^{-0.063(\mathrm{f1}+\mathrm{f2}+\mathrm{f3})\mathrm{j}} - 0.45\, \mathrm{e}^{-0.047( \mathrm{f1}+\mathrm{f2}+\mathrm{f3})\mathrm{j}} - 2.2\, \mathrm{e}^{-0.016(\mathrm{f1}+ \mathrm{f2}+\mathrm{f3}) \mathrm{j}}} +\\\scriptscriptstyle+ \frac{\left(2.0\cdot 10^{-14}\right)\, \mathrm{e}^{- 0.047\, \mathrm{f1}\, \mathrm{j}}\, \mathrm{e}^{- 0.094\, \mathrm{f1}\, \mathrm{j}}\, \mathrm{e}^{ - 0.094\, \mathrm{f2}\, \mathrm{j} - 0.094\, \mathrm{f3}\, \mathrm{j} - 0.11\, \mathrm{f4}\, \mathrm{j} - 0.13\, \mathrm{f5}\, \mathrm{j} - 0.14\, \mathrm{f6}\, \mathrm{j}}\, \left(\left(4.9\cdot 10^{15}\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}} + 1.8\cdot 10^{15}\right)}{1.4\cdot 10^4 + \left(1.5\cdot 10^5\right)\, \mathrm{e}^{0.031\, \mathrm{f1}\, \mathrm{j}} + \left(1.0\cdot 10^5\right)\, \mathrm{e}^{0.063\, \mathrm{f1}\, \mathrm{j}} - \left(2.2\cdot 10^5\right)\, \mathrm{e}^{0.047\, \mathrm{f1}\, \mathrm{j}} - \left(4.5\cdot 10^4\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}}} -\\\scriptscriptstyle- \frac{\left(2.0\cdot 10^{-14}\right)\, \mathrm{e}^{- 0.094\, \mathrm{f1}\, \mathrm{j}}\, \mathrm{e}^{ - 0.094\, \mathrm{f2}\, \mathrm{j} - 0.094\, \mathrm{f3}\, \mathrm{j} - 0.11\, \mathrm{f4}\, \mathrm{j} - 0.13\, \mathrm{f5}\, \mathrm{j} - 0.14\, \mathrm{f6}\, \mathrm{j}}\, \mathrm{e}^{- 0.016\, \mathrm{f1}\, \mathrm{j}}\, \left(\left(4.9\cdot 10^{15}\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}} + 1.8\cdot 10^{15}\right)}{1.4\cdot 10^4 + \left(1.5\cdot 10^5\right)\, \mathrm{e}^{0.031\, \mathrm{f1}\, \mathrm{j}} + \left(1.0\cdot 10^5\right)\, \mathrm{e}^{0.063\, \mathrm{f1}\, \mathrm{j}} - \left(2.2\cdot 10^5\right)\, \mathrm{e}^{0.047\, \mathrm{f1}\, \mathrm{j}} - \left(4.5\cdot 10^4\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}}} +\\\scriptscriptstyle+ \frac{\left(5.7\cdot 10^{-14}\right)\, \mathrm{e}^{ - 0.094\, \mathrm{f2}\, \mathrm{j} - 0.094\, \mathrm{f3}\, \mathrm{j} - 0.11\, \mathrm{f4}\, \mathrm{j} - 0.11\, \mathrm{f5}\, \mathrm{j} - 0.11\, \mathrm{f6}\, \mathrm{j}}\, \mathrm{e}^{- 0.047\, \mathrm{f1}\, \mathrm{j}}\, \mathrm{e}^{- 0.094\, \mathrm{f1}\, \mathrm{j}}\, \left(\left(4.9\cdot 10^{15}\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}} + 1.8\cdot 10^{15}\right)}{1.4\cdot 10^4 + \left(1.5\cdot 10^5\right)\, \mathrm{e}^{0.031\, \mathrm{f1}\, \mathrm{j}} + \left(1.0\cdot 10^5\right)\, \mathrm{e}^{0.063\, \mathrm{f1}\, \mathrm{j}} - \left(2.2\cdot 10^5\right)\, \mathrm{e}^{0.047\, 
+\mathrm{f1}\, \mathrm{j}} - \left(4.5\cdot 10^4\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}}} +\\ \scriptscriptstyle + \frac{\left(5.9\cdot 10^{-14}\right)\, \mathrm{e}^{ - 0.094\, \mathrm{f2}\, \mathrm{j} - 0.094\, \mathrm{f3}\, \mathrm{j} - 0.11\, \mathrm{f4}\, \mathrm{j} - 0.11\, \mathrm{f5}\, \mathrm{j} - 0.11\, \mathrm{f6}\, \mathrm{j}}\, \mathrm{e}^{- 0.094\, \mathrm{f1}\, \mathrm{j}}\, \mathrm{e}^{- 0.016\, \mathrm{f1}\, \mathrm{j}}\, \left(\left(4.9\cdot 10^{15}\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}} + 1.8\cdot 10^{15}\right)}{1.4\cdot 10^4 + \left(1.5\cdot 10^5\right)\, \mathrm{e}^{0.031\, \mathrm{f1}\, \mathrm{j}} + \left(1.0\cdot 10^5\right)\, \mathrm{e}^{0.063\, \mathrm{f1}\, \mathrm{j}} - \left(2.2\cdot 10^5\right)\, \mathrm{e}^{0.047\, \mathrm{f1}\, \mathrm{j}} - \left(4.5\cdot 10^4\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}}} - \\\scriptscriptstyle- \frac{\left(1.2\cdot 10^{-13}\right)\, \mathrm{e}^{ - 0.094\, \mathrm{f2}\, \mathrm{j} - 0.094\, \mathrm{f3}\,
+ \mathrm{j} - 0.11\, \mathrm{f4}\, \mathrm{j} - 0.11\, \mathrm{f5}\, \mathrm{j} - 0.11\, \mathrm{f6}\, \mathrm{j}}\, \mathrm{e}^{- 0.094\, \mathrm{f1}\, \mathrm{j}}\, \mathrm{e}^{- 0.031\, \mathrm{f1}\, \mathrm{j}}\, \left(\left(4.9\cdot 10^{15}\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}} + 1.8\cdot 10^{15}\right)}{1.4\cdot 10^4 + \left(1.5\cdot 10^5\right)\, \mathrm{e}^{0.031\, \mathrm{f1}\, \mathrm{j}} + \left(1.0\cdot 10^5\right)\, \mathrm{e}^{0.063\, \mathrm{f1}\, \mathrm{j}} - \left(2.2\cdot 10^5\right)\, \mathrm{e}^{0.047\, \mathrm{f1}\, \mathrm{j}} - \left(4.5\cdot 10^4\right)\, \mathrm{e}^{0.016\, \mathrm{f1}\, \mathrm{j}}}\end{array}\right]}{\left[\begin{array}{l}\scriptscriptstyle 1.0 - 2.2\, \mathrm{e}^{-0.016(\mathrm{f1}+\mathrm{f2}+\mathrm{f3}+\mathrm{f4}+\mathrm{f5}+\mathrm{f6}) \mathrm{j}} + 1.5\, \mathrm{e}^{-0.031(\mathrm{f1}+\mathrm{f2}+\mathrm{f3}+\mathrm{f4}+\mathrm{f5}+\mathrm{f6})\mathrm{j}} + 0.14\, \mathrm{e}^{-0.063(\mathrm{f1}+\mathrm{f2}+\mathrm{f3}+\mathrm{f4}+\mathrm{f5}
++\mathrm{f6}) \mathrm{j}} -\\ 
+ \scriptscriptstyle- 0.45\, \mathrm{e}^{-0.047(\mathrm{f1}+\mathrm{f2}+\mathrm{f3}+\mathrm{f4}+\mathrm{f5}+\mathrm{f6})\mathrm{j}}\end{array}\right]}
+ \end{align}
+
+ Como exemplo, nas Fig.~\ref{fig:GFRF1} e Fig.~\ref{fig:GFRF3} estão os gráficos dos módulos de  $H_1(f_1)$ e  $H_3(f_1,f_2,f_3)$. 
+
+ 
+ 
+\begin{figure}[!ht]
+\center
+    \includegraphics[width = 0.8\textwidth]{GFRF1.eps}
+    \caption{$|H_1(f_1)|$ em dB}
+    \label{fig:GFRF1}
+\end{figure}
+ 
+\begin{figure}[!ht]
+\center
+    \includegraphics[width = 0.8\textwidth]{GFRF3.eps}
+    \caption{$|H_3(f_1,f_2,f_3)|$. A escala de cores está em dB}
+    \label{fig:GFRF3}
+\end{figure}
+
+Um exemplo da interpretação da eq.~\eqref{eq:outputSpectrum} pode ser dado com o auxílio das Fig.~\ref{fig:GFRF1} e Fig.~\ref{fig:GFRF3}. Na Fig.~\ref{fig:GFRF1}, uma entrada que tenha um componente em 10~Hz terá um ganho de aproximadamente -50~dB e a frequência da saída relativa a essa componente será também 10~Hz. Este é o comportamento conhecido de sistemas lineares. Porém ao observar a Fig.~\ref{fig:GFRF3}, pode-se perceber que a \ac{GFRF} de terceira ordem tem o seu pico (cor vermelha) quando a soma das frequências dos sinais de entrada ($f_1$, $f_2$ e $f_3$) é zero. Isso significa que se o sinal de entrada tiver componentes tais que as frequências somem zero (considera-se frequências positivas e negativas) o ganho será de aproximadamente 40 dB e a frequência da saída correspondente a essas componentes será de 0 Hz (uma valor constante é somado ao sinal de saída).
+
+
+\begin{figure}[h!]
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{conductanceConstant.eps}}
+  \subfloat[]{\includegraphics[width=0.5\textwidth]{conductance20Hz.eps}}\\
+  \subfloat[]{\includegraphics[width=\textwidth]{forceConstante20Hz.eps}}
+  \caption[Comportamento não-linear do sistema]{Comportamento não-linear do sistema (a) Espectro da condutância sináptica total de 0 a 7,5~s, tendo a média dos \acp{ISI} do comando descendente constante  (b) Espectro da condutância total de 7,5~s a 15~s, tendo a média dos \acp{ISI} do comando descendente modulada senoidalmente a 20~Hz (c) Sinal de força}
+  \label{fig:nonlinbehav}
+\end{figure}
+
+Este comportamento pode ser visto na Fig.~\ref{fig:nonlinbehav}, que mostra os resultados de uma simulação do sistema original (ver Apêndice~\ref{cap:model}). Nesta simulação, os axônios do comando descendente têm os disparos com um \ac{ISI} médio de 10~ms. Até 7,5~s, os disparos não têm nenhuma modulação. A partir deste instante, os disparos são modulados com senoides a 10~Hz e 20~Hz. Isso faz com que a condutância sináptica total dos \acp{MN} passe a ter componentes maiores em 10~Hz e em 20~Hz (ver Fig.~\ref{fig:nonlinbehav}(b)). O comportamento esperado em um sistema linear seria o surgimento de componentes em 10~Hz e em 20~Hz também na saída. Porém, como já observado, o sistema é não linear. Isso faz com que se some ao sinal anterior à modulação uma constante. Isso ocorre pelo exposto no parágrafo anterior: ocorre uma amplificação quando a soma de três frequências do sinal de entrada é zero. Nesse caso a soma zero acontece com $f_1 = 20$~Hz, $f_2=-10$~Hz e $f_3=-10$~Hz.
+
+
+Além da não-linearidade de terceira-ordem, existem as não-linearidades até a sexta-ordem, para o sistema analisado. Devido a essas não-linearidades envolverem gráficos com quatro ou mais eixos (ou seja, são gráficos em quatro ou mais dimensões), é difícil colocar esses gráficos no papel, o que dificulta a análise das \acp{GFRF}. No entanto, comportamentos semelhantes ao observado para $H_3$ acontecem para as \acp{GFRF} de ordem maior. O que é interessante notar é que utilizando as \acp{GFRF} é possível prever certos comportamentos do sistema original, como por exemplo o aumento do nível médio da força com uma modulação senoidal na entrada, que seriam muito difíceis de prever analisando as equações do modelo original ou mesmo o modelo identificado no domínio do tempo. 
+
+\index{Oscilações corticais}\index{coerência}
+Oscilações corticais nas bandas beta e gama (13 Hz- 30 Hz e 35 Hz a 70 Hz) têm sido observadas tanto em macacos \cite{Murthy1992, Murthy1996, Sanes1993, Baker1997, Baker2001, Baker2003} como em seres humanos \cite{Conway1995, Schoffelen2005, Kristeva2007, Engel2010, Gwin2012}. Estas oscilações corticais se conectam aos \acp{MN} pelos axônios do trato piramidal~\cite{Baker2003}. Este acoplamento foi estudado por meios indiretos em diferentes tarefas motoras por meio da coerência entre o \ac{EEG} (ou magnetoencefaogramo ou campos de potenciais locais) e o \ac{EMG}~\cite{Conway1995, Baker1997, Salenius1997, Halliday1998, Mima1999, Kilner2000, Schoffelen2005, Gilbertson2005, Andrykiewicz2007, Kristeva2007, Chakarov2009, Naranjo2010, Yang2010, Ushiyama2012, Gwin2012, Mendez-Balbuena2012}. As coerências reportadas nas bandas beta e/ou gama indicam que a atividade muscular nestas frequências são dependentes, pelo menos em parte, da atividade corticoespinhal. Apesar do grande número de observações experimentais, a função destas oscilações no controle motor não está clara~\cite{Fetz2013, Aumann2015}.
+
+Devido à dificuldades experimentais em medir as entradas do pool de \acp{MN} em seres humanos~\cite{Heckman2012}, o estudo de como as entradas comuns aos \acp{MN} de um pool influenciam os disparos dos \acp{MN} foi abordado recentemente utilizando simulações de modelos computacionais~\cite{williams2009, Williams2009b, Stegeman2010, Negro2011,Negro2011b, Negro2012, Watanabe2013, Farina2014, Gallego2015, Lowery2007, Dideriksen2015}.
+
+
+Recent research (Lowery et al., 2007; Stegeman et al., 2010; Negro and Farina, 2011a; Farina et al., 2014) has proposed that a pool of MNs would act as a linear system and, hence, the force output would mirror the time-varying CSIs of the MN pool for frequencies up to about 6-10 Hz. 
+The above mentioned experimentally obtained corticomuscular coherence in the beta (and/or gamma) bands and the postulate that the MN pool behaves linearly are apparently inconsistent. This is so because, according to the latter conjecture, the beta (or higher) band cortical output oscillations that are part of the CSIs to a MN pool would be filtered out by the muscle and hence contribute nothing to muscle force control (Farina et al., 2014). 
+To explore the issue of how beta (or higher) band CSI oscillations can influence force production, the present study relies on a biologically-compatible neuromuscular computational model (Cisi and Kohn, 2008; Elias et al., 2012a, 2014; Watanabe et al., 2013). The results from the simulation of this computational model indicate that the recruitment properties of a pool of MNs enable cortical oscillations at beta or higher frequencies to have a role in force control.
+
+\begin{figure}[!ht]
+    \includegraphics[width = 16cm]{CSTexplain.png}
+    \caption[Conceito de CST]{Exemplo do conceito de \ac{CST}. Os primeiros 5 trens de disparos (cada um de uma cor diferente) são superpostos (somados) para obter o \ac{CST}.}
+    \label{fig:CSTexplain}
+\end{figure}
+
+
+\begin{figure}[!ht]
+    \includegraphics[width = 16cm]{ARexplain.png}
+    \caption[Taxa de disparos média usado nas simulações para cada axônio descendente]{Exemplo do conceito da \ac{AR}. As linhas verticais indicam os instantes de disparo. Os valores dos \acp{ISI} estão indicados em ms. Os \acp{ISI} menores que 100~ms estão pintados em azul e os maiores que 100~ms estão em amarelo.}
+    \label{fig:ARexplain}
+\end{figure}
+
+\begin{figure}[!ht]
+\center
+    \includegraphics{ModSignalJN.png}
+    \caption[Taxa de disparos média usado nas simulações para cada axônio descendente]{Taxa de disparos média usado nas simulações seguintes para cada axônio descendente. A taxa de disparos basal foi, em ambos os casos, de 65 disparos por segundo. (a) A modulação da taxa de disparos começa após 60~s com um sinal senoidal de frequência 20~Hz e amplitude de 20 disparos por segundo. Após 120~s, a taxa média de disparos decai para 58 disparos por segundo. (b) A modulação da taxa de disparos começa após 60~s com um sinal senoidal de 20~Hz, cuja amplitude foi modulada por uma senoide de 1~Hz.}
+    \label{fig:ModSignal}
+\end{figure}
+
+
+\begin{figure}[!ht]
+\center
+    \includegraphics{steadyState_JN.png}
+    \caption[Resultados da simulação com o sistema complexo com comando descendente sem oscilação]{Resultados da simulação com o sistema complexo usando a taxa de disparos mostrada na Fig.~\ref{fig:ModSignal}(a). (a-c) Espectro da potência da condutância sináptica nas três situações da Fig.~\ref{fig:ModSignal}. (d-f) Coerência entre a condutância sináptica e o \ac{CST} com a mesma entrada da Fig.~\ref{fig:ModSignal}(a). Os dados individuais das coerências com os 100 \acp{CST} estão mostrados em cor clara e a média está mostrada em cor escura. (g) Sinal da força durante a simulação. (h) Disparos dos \acp{MN} durante a simulação. }
+    \label{fig:steadyState}
+\end{figure}
+
+\begin{figure}[!ht]
+\center
+    \includegraphics[width = 13cm]{oscillationCoherence_JN.png}
+    \caption[Espectros e coerências da simulação com o sistema complexo com comando descendente com oscilação]{Espectro e coerências das entradas e saídas com os disparos do comando descendente tendo como média o mostrado na Fig.~\ref{fig:ModSignal}(b). (a-b) Espectros da condutância sináptica (c-d) Coerência entre a condutância sináptica e os \acp{CST} de cinco \acp{MN} escolhidos aleatoriamente. O resultado de cada uma das 100 combinações está mostrado em cor clara e a média em cor escura. A linha tracejada indica o intervalo de confiança de 95\%. (e-f) Espectro da força nas duas situações.}
+    \label{fig:oscillationCoherence}
+\end{figure}
+
+
+\begin{figure}[!ht]
+\center
+    \includegraphics[width = 15cm]{oscillationSpikes_JN.png}
+    \caption[Análise dos disparos dos MNs com os disparos do comando descendente com oscilação]{Análise dos disparos dos \acp{MN} com os disparos do comando descendente tendo como média o mostrado na Fig.~\ref{fig:ModSignal}(b). (a) Sinal da força muscular durante um período de 15~s. Com o início da modulação a força começa a oscilar em 1~Hz. (b) Disparos dos \acp{MN} durante um período de 15~s. A cor dos pontos indica os valores da \ac{AR} dos \acp{MN}, indicados nas barras. (c-d) Linha escura: média do espectro dos \acp{CST} de 5 \acp{MN} escolhidos aleatoriamente entre os 5\% dos \acp{MN} com \ac{AR} mais baixo. Linha clara: média do espectro dos \acp{CST} de 5 \acp{MN} escolhidos aleatoriamente entre os 5\% dos \acp{MN} com \ac{AR} mais alto. Os espectros forma normalizados pela sua potência máxima (c) e pela potência em 20 Hz (d).}
+    \label{fig:oscillationSpikes}
+\end{figure}

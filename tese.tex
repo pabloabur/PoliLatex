@@ -1,0 +1,133 @@
+\documentclass [a4paper,normaltoc,normalfigtabnum, header, espacoumemeio, capchap, capsec, cappre, 12pt,notimes]{abntpoli}
+
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{graphicx}
+\usepackage{pstricks}
+\usepackage{acronym}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{tocbibind}
+\usepackage[labelsep=endash, font=footnotesize]{caption}
+\usepackage[alf, abnt-emphasize=bf]{abntcite}
+\usepackage[final]{listofsymbols}
+\usepackage{url}
+\usepackage{textcomp}
+\usepackage{imakeidx}
+\usepackage{subfig}
+\usepackage[section]{placeins}
+\usepackage{etoolbox}
+\usepackage{dsfont} % fontes matemáticas duplas como N, Z, R, para designar conjuntos
+\usepackage[subfigure]{tocloft}
+\usepackage[final]{pdfpages}
+
+%\usepackage{cite}
+
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\makeindex[title=Índice]
+
+%muda o comando \bordermatrix para fazer com colchetes
+\let\bbordermatrix\bordermatrix
+\patchcmd{\bbordermatrix}{8.75}{4.75}{}{}
+\patchcmd{\bbordermatrix}{\left(}{\left[}{}{}
+\patchcmd{\bbordermatrix}{\right)}{\right]}{}{}
+
+\renewcommand{\ABNTchapterfont}{\bfseries\normalsize\selectfont}
+\renewcommand{\ABNTanapsize}{\normalsize}
+\renewcommand{\ABNTsectionfontsize}{\normalsize}
+\renewcommand{\ABNTsectionfont}{\upshape}
+\renewcommand{\ABNTsubsectionfontsize}{\normalsize}
+\renewcommand{\ABNTsubsectionfont}{\bfseries}
+\renewcommand{\sin}{\operatorname{sen}}
+\renewcommand{\arcsin}{\operatorname{arcsen}}
+\newcommand{\diag}{\mathop{\mathrm{diag}}}
+% 
+
+%\renewcommand{\cftfigfont}{Figura }
+%\renewcommand{\cfttabfont}{Tabela }
+\setcounter{lofdepth}{1}
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+
+\newlength\tablelen
+\settowidth\tablelen{\tablename\;}
+\addtolength\cfttabnumwidth{\tablelen}
+\renewcommand\cfttabpresnum{\tablename\;}
+\renewcommand\cfttabaftersnum{\,--\;}
+
+\newlength\figlen
+\settowidth\figlen{\figurename\;}
+\addtolength\cftfignumwidth{\figlen}
+\renewcommand\cftfigpresnum{\figurename\;}
+\renewcommand\cftfigaftersnum{\,--\;}
+
+
+\graphicspath{{./figuras/}}
+
+\allowdisplaybreaks
+
+% Pacote: listings
+% Carrega informações de suporte às linguagens. Deixa a linguagem C
+% como padrão e os comentários em fonte pequena.
+\lstloadlanguages{C}
+\lstset{emph={Sum,N},emphstyle=\color{blue},emph=[2]I,emphstyle=[2]\underbar,
+   commentstyle=\scriptsize, basicstyle=\scriptsize, language=Matlab,numbers=none,numberstyle=\tiny,
+   stepnumber=1,numbersep=5pt,breaklines=true,breakindent=0pt,
+   prebreak=\mbox{\tiny$\hdots$},
+   postbreak=\mbox{{\color{blue}\tiny$\hdots$}},
+   backgroundcolor=\color{gray!10}}
+   
+   %\lhead{\thechapter}
+   
+   
+
+\begin{document}
+	\pagenumbering{roman}
+	
+	\include{capa}
+	\include{agradecimentos}
+	
+	%\newpage
+	\include{resumo}
+	
+%	\renewcommand\listfigurename{Lista de Figuras}
+	
+	\listadefiguras
+	\listadetabelas
+%	\include{siglas}
+	\include{simbolos}
+	\listofsymbols	
+	%\lhead{\thechapter}
+	
+	\include{siglas}
+	
+	\sumario	
+	
+	%\pagestyle{fancyplain}
+	\include{introducao}
+		
+ 	\include{ident}
+	
+	\include{conclusao}
+	
+	\ProximoForaDoSumario
+	\bibliography{library}
+	\setboolean{ABNTNextOutOfTOC}{false}
+	
+	\apendice
+	
+	%\include{model}
+	
+	
+	\anexo	
+	\setboolean{ABNTNextOutOfTOC}{false}
+  
+  \printindex
+	
+	
+\end{document}
+
