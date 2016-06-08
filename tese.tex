@@ -30,21 +30,7 @@
 
 \makeindex[title=Índice]
 
-%muda o comando \bordermatrix para fazer com colchetes
-\let\bbordermatrix\bordermatrix
-\patchcmd{\bbordermatrix}{8.75}{4.75}{}{}
-\patchcmd{\bbordermatrix}{\left(}{\left[}{}{}
-\patchcmd{\bbordermatrix}{\right)}{\right]}{}{}
 
-\renewcommand{\ABNTchapterfont}{\bfseries\normalsize\selectfont}
-\renewcommand{\ABNTanapsize}{\normalsize}
-\renewcommand{\ABNTsectionfontsize}{\normalsize}
-\renewcommand{\ABNTsectionfont}{\upshape}
-\renewcommand{\ABNTsubsectionfontsize}{\normalsize}
-\renewcommand{\ABNTsubsectionfont}{\bfseries}
-\renewcommand{\sin}{\operatorname{sen}}
-\renewcommand{\arcsin}{\operatorname{arcsen}}
-\newcommand{\diag}{\mathop{\mathrm{diag}}}
 % 
 
 %\renewcommand{\cftfigfont}{Figura }

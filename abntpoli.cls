@@ -70,13 +70,13 @@
 \providecommand{\leftmarkformat}{\itshape}
 \providecommand{\thepageformat}{\small}
 \providecommand{\ABNTchaptersize}{\huge}
-\providecommand{\ABNTCHAPTERfont}{\bfseries\slshape}
-\providecommand{\ABNTChapterfont}{\bfseries\itshape}
+\providecommand{\ABNTCHAPTERfont}{\bfseries\normalsize\selectfont}
+\providecommand{\ABNTChapterfont}{\bfseries\normalsize\selectfont}
 \providecommand{\ABNTtocchapterfont}{\ABNTchapterfont\upshape}
 % Font which section titles will be printed
-\providecommand{\ABNTsectionfontsize}{\Large}
-\providecommand{\ABNTsectionfont}{\bfseries}
-\providecommand{\ABNTsubsectionfontsize}{\large}
+\providecommand{\ABNTsectionfontsize}{\normalsize}
+\providecommand{\ABNTsectionfont}{\upshape}
+\providecommand{\ABNTsubsectionfontsize}{\normalsize}
 \providecommand{\ABNTsubsectionfont}{\bfseries}
 \providecommand{\ABNTsubsubsectionfontsize}{\normalsize}
 \providecommand{\ABNTsubsubsectionfont}{\bfseries}
@@ -84,11 +84,11 @@
 \providecommand{\ABNTparagraphfont}{\bfseries}
 \providecommand{\ABNTsubparagraphfontsize}{\normalsize}
 \providecommand{\ABNTsubparagraphfont}{\bfseries}
-\providecommand{\ABNTanapsize}{\LARGE}
+\providecommand{\ABNTanapsize}{\normalsize}
 \newlength{\ABNTanapindent}
 \setlength{\ABNTanapindent}{0cm}
 %% Contents shows up to subsubsection. 
-\setcounter{tocdepth}{4}
+\setcounter{tocdepth}{3}
 
 %% Section number will appear up to \subsubsection
 \setcounter{secnumdepth}{3}
