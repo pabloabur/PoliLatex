@@ -46,7 +46,7 @@
 
 %packages from abntex
 %predefined abbreviations
-\RequirePackage{abntex-abrev}  %language specific abbreviations
+%\RequirePackage{abntex-abrev}  %language specific abbreviations
 
 \providecommand{\ABNTabstractname}{Abstract}
 \providecommand{\ABNTbibliographyname}{\bibname}%alternativamente \refname

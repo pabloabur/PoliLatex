@@ -11,7 +11,7 @@
 \usepackage{listings}
 \usepackage{tocbibind}
 \usepackage[labelsep=endash, font=footnotesize]{caption}
-\usepackage[alf, abnt-emphasize=bf]{abntcite}
+\usepackage[alf, abnt-emphasize=bf]{abntcitepoli}
 \usepackage[final]{listofsymbols}
 \usepackage{url}
 \usepackage{textcomp}
@@ -70,16 +70,7 @@
 
 \allowdisplaybreaks
 
-% Pacote: listings
-% Carrega informações de suporte às linguagens. Deixa a linguagem C
-% como padrão e os comentários em fonte pequena.
-\lstloadlanguages{C}
-\lstset{emph={Sum,N},emphstyle=\color{blue},emph=[2]I,emphstyle=[2]\underbar,
-   commentstyle=\scriptsize, basicstyle=\scriptsize, language=Matlab,numbers=none,numberstyle=\tiny,
-   stepnumber=1,numbersep=5pt,breaklines=true,breakindent=0pt,
-   prebreak=\mbox{\tiny$\hdots$},
-   postbreak=\mbox{{\color{blue}\tiny$\hdots$}},
-   backgroundcolor=\color{gray!10}}
+
    
    %\lhead{\thechapter}
    
@@ -120,10 +111,11 @@
 	
 	\apendice
 	
-	%\include{model}
+	\include{apendice}
 	
 	
 	\anexo	
+	\include{anexo}
 	\setboolean{ABNTNextOutOfTOC}{false}
   
   \printindex
