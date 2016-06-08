@@ -1491,7 +1491,7 @@ Para mais informacoes, leia o manual da classe.\MessageBreak%
 \fi
 \thispagestyle{empty}%
 \setcounter{page}\z@
-\vspace*{1cm}
+%\vspace*{1cm}
 \espaco{1.1}
 \ABNTifnotempty{\ABNTautordata}%
   {%
