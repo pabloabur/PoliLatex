@@ -328,8 +328,8 @@
 % \AtEndDocument is the last chace for include bibliography style..
 \AtEndDocument{
   \ifthenelse{\not\boolean{ABCIbibtexstyleused}}
-    {\ifthenelse{\equal{\AbntOrderType}{citation}}{\bibliographystyle{abnt-num}}{}
-     \ifthenelse{\equal{\AbntOrderType}{alphabetic}}{\bibliographystyle{abnt-alf}}{}}
+    {\ifthenelse{\equal{\AbntOrderType}{citation}}{\bibliographystyle{abntpoli-num}}{}
+     \ifthenelse{\equal{\AbntOrderType}{alphabetic}}{\bibliographystyle{abntpoli-alf}}{}}
     {}
 }
 
