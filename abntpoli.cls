@@ -244,8 +244,6 @@
 
 %Options which group options according to specific norms.
 
-\DeclareOption{nbr6027=1989}  {\input{nbr6027-1989.def}}
-\DeclareOption{nbr14724=2001} {\input{nbr14724-2001.def}}
   
 %options which declare version specific behaviour,
 %default options expected for each version are declared here
@@ -253,13 +251,31 @@
 \DeclareOption{abntex=0.8} 
   {\ExecuteOptions{boldmath=auto}
    \ExecuteOptions{font=times}
-   \ExecuteOptions{nbr6027=1989,nbr14724=2001}
+   \ExecuteOptions{pagestart=folhaderosto}
+   \ExecuteOptions{sumario=completo}
+   \ExecuteOptions{tocpage=prefix}
+   \ExecuteOptions{floatnumber=continous}
+   \ExecuteOptions{header=plain}
+   \ExecuteOptions{chapter=Title,section=Title,appendix=NAME,appendix=titlebox,}
+   \ExecuteOptions{espaco=umemeio}
+   %our interpretation/understanding
+   \ExecuteOptions{appendix=titlebox,appendix=NAME}
+   \ExecuteOptions{indent=all}
    \renewcommand{\ABNTbibliographyname}{\refname}}
 
 \DeclareOption{abntex=0.9} 
   {\ExecuteOptions{boldmath=auto}
    \ExecuteOptions{font=times}
-   \ExecuteOptions{nbr6027=1989,nbr14724=2001}}
+   \ExecuteOptions{pagestart=folhaderosto}
+   \ExecuteOptions{sumario=completo}
+   \ExecuteOptions{tocpage=prefix}
+   \ExecuteOptions{floatnumber=continous}
+   \ExecuteOptions{header=plain}
+   \ExecuteOptions{chapter=Title,section=Title,appendix=NAME,appendix=titlebox,}
+   \ExecuteOptions{espaco=umemeio}
+   %our interpretation/understanding
+   \ExecuteOptions{appendix=titlebox,appendix=NAME}
+   \ExecuteOptions{indent=all}}
 
 % This should be the only default \ExecuteOptions command.
 \ExecuteOptions{abntex=0.9}

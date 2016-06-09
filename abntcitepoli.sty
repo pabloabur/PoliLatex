@@ -147,9 +147,33 @@
 \DeclareOption{citepos=inline}{\setboolean{ABNTovercite}{false}}
 
 %Options specific to the several versions of 10520
-\DeclareOption{nbr10520=1988}{\input{nbr10520-1988.def}}
-\DeclareOption{nbr10520=2001}{\input{nbr10520-2001.def}}
-\DeclareOption{nbr10520=2002}{\input{nbr10520-2002.def}}
+\DeclareOption{nbr10520=1988}{
+    \ExecuteOptions{overcite}
+    \ifx\AbntCitetype\AbntCitetypeALF
+      \else
+	\renewcommand{\setcitebrackets}{\citebrackets[]}
+    \fi
+    \addtociteoptionlist{abnt-nbr10520=1988}
+    \ExecuteOption{indent}}
+\DeclareOption{nbr10520=2001}{
+    \ExecuteOptions{overcite}
+    \ifx\AbntCitetype\AbntCitetypeALF
+      \else
+	\renewcommand{\setcitebrackets}{\citebrackets[]}
+    \fi
+    \addtociteoptionlist{abnt-nbr10520=2001}
+    \ExecuteOptions{rightalign=no}
+}
+\DeclareOption{nbr10520=2002}{
+    \ifx\AbntCitetype\AbntCitetypeALF
+      \else
+	\renewcommand{\setcitebrackets}{
+	  \ifthenelse{\boolean{ABNTovercite}}{\citebrackets{}{}}{\citebrackets()}}
+    \fi
+    \addtociteoptionlist{abnt-nbr10520=2002}
+    \ExecuteOptions{rightalign=no}
+    \ExecuteOptions{citepos=inline}
+}
 
 \DeclareOption{abnt-substyle=COPPE}
   {\newcommand{\bibtextitlecommand}[2]{``#2''}%
