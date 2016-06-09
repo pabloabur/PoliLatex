@@ -135,9 +135,9 @@
 \DeclareOption{biblabel-on-margin}{\setboolean{ABCIbiblabelonmargin}{true}}
 \DeclareOption{biblabel-not-on-margin}{\setboolean{ABCIbiblabelonmargin}{false}}
 
-% \bibliography includes abnt-options automatically unless next option is used
-\DeclareOption{optionfile=abnt-options.bib}{\setboolean{ABCIauto-abntoptions}{true}}
-\DeclareOption{optionfile=none}{\setboolean{ABCIauto-abntoptions}{false}}
+% % \bibliography includes abnt-options automatically unless next option is used
+% \DeclareOption{optionfile=abnt-options.bib}{\setboolean{ABCIauto-abntoptions}{false}}
+% \DeclareOption{optionfile=none}{\setboolean{ABCIauto-abntoptions}{true}}
 
 % recuo : compatibility with old norms
 \DeclareOption{indent}{\setlength{\bibindent}{1.8em}}
@@ -197,7 +197,7 @@
 \DeclareOption{num}{\ExecuteOptions{call=numeric,order=citation}}
 \DeclareOption{bibjustif}{\ExecuteOptions{rightalign=yes}}
 \DeclareOption{bibleftalign}{\ExecuteOptions{rightalign=yes}} %left/right mixed
-\DeclareOption{abnt-option-file}{\ExecuteOptions{optionfile=abnt-options.bib}}
+%\DeclareOption{abnt-option-file}{\ExecuteOptions{optionfile=abnt-options.bib}}
 \DeclareOption{no-abnt-option-file}{\ExecuteOptions{optionfile=none}}
 \DeclareOption{overcite}{\ExecuteOptions{citepos=over}}
 \DeclareOption{inlinecite}{\ExecuteOptions{citepos=inline}}
@@ -215,7 +215,7 @@
   %non-norm dependent default options
   \ExecuteOptions{biblabel-not-on-margin}
   \ExecuteOptions{call=authordate,order=alphabetic}
-  \ExecuteOptions{optionfile=abnt-options.bib}
+  %\ExecuteOptions{optionfile=abnt-options.bib}
   \ExecuteOptions{experimental}
   \ExecuteOptions{not-foot}
   %norm-dependent default options
@@ -228,7 +228,7 @@
   %non-norm dependent default options
   \ExecuteOptions{biblabel-not-on-margin}
   \ExecuteOptions{call=authordate,order=alphabetic}
-  \ExecuteOptions{optionfile=abnt-options.bib}
+  %\ExecuteOptions{optionfile=abnt-options.bib}
   \ExecuteOptions{experimental}
   \ExecuteOptions{not-foot}
   %norm-dependent default options
