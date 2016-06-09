@@ -106,6 +106,7 @@
 \newlength{\ABNTsignwidth}
 \setlength{\ABNTsignwidth}{8cm}
 
+
 % thickness of the line
 \newlength{\ABNTsignthickness}
 \setlength{\ABNTsignthickness}{0pt}
